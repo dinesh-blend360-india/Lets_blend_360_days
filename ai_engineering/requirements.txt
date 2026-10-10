@@ -1,0 +1,5 @@
+#------day1-simple-genai----#
+streamlit
+google-genai 
+python-dotenv
+ollama

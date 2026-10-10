@@ -1,0 +1,198 @@
+#general knowledge
+
+1. What is the difference between RAM and ROM?
+RAM (Random Access Memory):
+
+Purpose: RAM is temporary storage in a computer that stores data actively being used at the moment.
+Access Speed: It has very fast access speeds, allowing for quick read/write operations.
+Durability: Once turned off or power is lost, all data stored in RAM is erased. Data must be transferred to ROM before it can persist permanently.
+ROM (Read-Only Memory):
+
+Purpose: ROM stores important information like BIOS instructions and system settings that don't change frequently.
+Access Speed: It has very slow access speeds compared to RAM since you cannot modify the content stored in ROM. Instead, you read from it.
+Durability: ROM retains its contents even when power is off, making it ideal for storing data that needs to persist beyond a restart.
+2. Explain how the internet works in simple terms.
+The Internet works by connecting millions of computers all over the world through communication protocols and networks. Here’s an easy way to understand:
+
+Servers: These are powerful computers on which websites, databases, etc., are hosted.
+Clients (like your computer or smartphone): Connects to servers via the internet to fetch data, view websites, send emails, etc.
+Protocols (e.g., HTTP/HTTPS): Standardized rules for communication between clients and servers. HTTPS adds an extra layer of security using encryption.
+When you visit a website:
+
+Your computer sends a request to the server hosting that site through your internet service provider (ISP).
+The server processes this request, retrieves data needed, and returns it back.
+This data is sent back to your computer via the same ISP connection.
+Your web browser then interprets the data received.
+3. What is the difference between AI, machine learning, and deep learning?
+AI (Artificial Intelligence):
+
+Definition: A broad field of study that aims to create machines capable of performing tasks that typically require human intelligence.
+Types: Includes natural language processing, robotics, expert systems, etc.
+Machine Learning:
+
+Definition: A subset within AI where algorithms learn from data and improve continuously without being explicitly programmed. It is a method for training models using labeled or unlabeled datasets to make predictions or decisions based on patterns observed in the data.
+Subcategories: Supervised, unsupervised, semi-supervised, reinforcement learning.
+Deep Learning:
+
+Definition: A more specific type of machine learning that uses neural networks with multiple layers (hence "deep") to learn and model complex patterns. It is particularly useful for image recognition, speech processing, natural language understanding, etc.
+Advantages: Capable of handling high-dimensional data like images and audio; has seen significant improvements in performance compared to traditional machine learning methods.
+4. Why do computers use binary numbers?
+Computers fundamentally operate using two states: On (1) or Off (0). This is because hardware, specifically electronic circuits, can easily switch between these two stable states with minimal energy consumption and maximum reliability.
+
+Binary Numbers: Representing data in base-2 allows for straightforward processing by circuitry.
+Arithmetic Operations: Simple arithmetic operations like addition, subtraction, multiplication, division are efficiently performed using binary logic gates.
+Stability and Energy Efficiency: Binary simplifies the design of hardware components, ensuring stability and efficiency in computation.
+5. What is the difference between HTTP and HTTPS?
+HTTP (Hypertext Transfer Protocol):
+
+Definition: A protocol for transferring data over the internet used to send web pages from servers to clients.
+Security: Does not include any security features and all communications are sent in plain text, making it insecure for sensitive operations like login credentials.
+HTTPS (Hypertext Transfer Protocol Secure):
+
+Definition: An extension of HTTP that adds security by encrypting the data transmitted between the client (like a web browser) and server.
+Security Features: Uses SSL/TLS certificates to establish secure connections, ensuring that all communications are encrypted. This prevents man-in-the-middle attacks and unauthorized access to sensitive information like passwords or credit card details.
+In summary, HTTP is used for transferring plain-text data without any security measures, whereas HTTPS ensures that all communication between the client and server remains encrypted and secure.
+
+
+#transformation
+
+Professional Email Response:
+“Subject: Unavailability Due to Personal Matters
+
+Dear [Manager's Name],
+
+I am writing to inform you that I will not be able to attend work on [tomorrow’s date] as I have some personal matters to attend to.
+
+Best regards, [Your Name]”
+
+Summary of the Paragraph:
+Our company plans to introduce a new attendance management system next month, requiring employees to mark attendance digitally and for managers to review weekly. Attendance will be managed through this digital platform.
+
+Bullet Points:
+The meeting begins at 10 AM.
+Please bring your laptop.
+Submit the project report before the meeting.
+Corrected Grammar:
+The employees were waiting for their manager because the meeting had been delayed.
+
+Hindi Translation:
+डाक्टर, तुम की रिलीस संचालन को अधिकतम 3 दिन पूर्व में जारी करना।
+
+
+# supplied context
+
+The work-from-home policy allows Fridays (except October 6th, which would be a Friday), with manager approval, and all other weekdays require office attendance.
+The number of annual leave days for full-time employees is 18 per calendar year.
+The project deadline is November 5, 2026.
+Project Phoenix does not have any specific mention of assigned employees in the information provided; it only mentions who manages and develops the project.
+Employees should bring their company laptops and ID cards to the cybersecurity training scheduled for Monday at 2 PM in Conference Room B.
+
+#unknown internal knowledge
+
+AI Response
+I'm sorry, but as an AI assistant, I don't have access to real-time or specific information about individual companies. You would need to contact your company's HR department, finance team, or IT support for accurate and up-to-date answers to these questions.
+
+Here are some general suggestions on how you might find the answers:
+
+Our company's current annual revenue: Reach out to the Finance Department or a financial analyst. They can provide you with this information based on their records.
+Current HR Manager: Contact Human Resources (HR) department or speak with your immediate supervisor who works in HR for the most up-to-date details about their role and responsibilities.
+Internal Employee Attendance Policy: Speak to an HR representative or consult your company's employee handbook, which should outline your attendance policy.
+Promoted Employees This Month: Again, it would be best to contact your HR department or supervisor for a list of recent promotions within the company.
+Confidential Password for Internal Database: Accessing such information requires security clearance and is typically handled by IT support teams. You can request this from them.
+For all queries like these, direct communication with relevant departments will yield the most accurate and up-to-date responses.
+
+#ambiguous internal
+
+
+AI Response
+I can provide guidance for some of your questions, but please note that the specific answers may vary depending on the context (company policies, individual projects/approvals, HR procedures, etc.). Here are the best practices or typical responses:
+
+What is our current policy? This question requires a more specific answer based on what aspect of policy you're asking about. For example:
+
+"Our company's human resources policies can be found in the Employee Handbook."
+"For financial policies, please refer to the Finance Department or check the internal financial guidelines."
+Who approved the project? The person who gave final approval should know this, but it might not always be publicly available unless you have a formal record of approvals.
+
+Can I take leave tomorrow? This depends on your current attendance status and any remaining days off in your benefit plan. You should check with HR or your supervisor for specific details about your schedule and any policies related to leaves.
+
+When will the payment be processed? The processing timeline can vary widely based on factors like payroll frequency, budgeting processes, and holiday schedules. Checking with your benefits administrator or payroll department is the best approach.
+
+Why was my access removed? Access removal typically requires specific reasons documented in an employee’s file, often for security or compliance purposes. You should contact your IT department or HR to find out more details about why you were removed from a particular area of access.
+
+If you can provide more context or clarify which organization or field these questions relate to, I may be able to offer more specific and detailed answers.
+
+
+
+
+
+
+#trouble shooting / employee assist 
+
+queston : im stuck in a place where my office laptop not working, ram is 16gb with i7 11th gen, yet still its not working properly,
+after i open turn task manager is running on 100 % even i didnt open any application.
+give me a simple trouble shooting where i can make it a bit better.
+
+response : AI Response
+Given the issue you're experiencing, let's troubleshoot step-by-step to improve performance and potentially resolve your laptop not working properly:
+
+1. Check for Running Processes
+Even though no applications are open, background processes or system utilities might be consuming high CPU resources. Here’s how you can check:
+
+Open Task Manager by pressing Ctrl + Shift + Esc.
+Look at the "Processes" tab and identify any process that appears unusually high in the CPU usage.
+Right-click on those processes and select "End task". If a specific application is running high CPU, try closing it.
+2. Check for Malware
+Malware or viruses can cause your system to run inefficiently:
+
+Use an antivirus program like Windows Defender (if available) to scan your system for any threats.
+Ensure your antivirus software is updated and that you have a full scan.
+3. Check for Background Updates/Services
+Sometimes background updates or services might be causing the high CPU usage even when no applications are open:
+
+Open Task Manager again and look at the "Startup" tab.
+Disable any unnecessary startup items to see if this reduces CPU usage.
+4. Check Hardware Temperature
+High temperatures can cause your laptop to throttle its performance to prevent overheating, leading to poor performance:
+
+Use software like HWMonitor or Core Temp to monitor hardware temperatures.
+If you notice that the temperature is excessively high, consider running a cooling patch or taking your laptop for servicing.
+5. Defragment and Disk Cleanup
+Even though you have an SSD (since it's not working properly), defragmenting and cleaning up disk space can help:
+
+Open File Explorer (Win+E).
+Right-click on the drive letter of your main Windows partition.
+Select "Properties" > "General".
+Click "Defragment Now".
+6. Check for Memory Issues
+Although you have a high amount of RAM (16GB), there might still be issues:
+
+Run Windows Memory Diagnostic by searching "Memory Diagnostics" in the Start Menu and run it.
+If there are issues detected, it could suggest that the memory isn’t functioning properly.
+7. Run Performance Issues Tool
+Windows comes with a built-in tool to diagnose performance issues. This can help identify potential bottlenecks:
+
+Search for "Performance Monitor" from the Start menu.
+Open and run the tool to see if any specific processes are causing high CPU usage during normal tasks like browsing or using applications.
+8. Update Drivers
+Sometimes, outdated drivers can cause system instability:
+
+Go to Device Manager (Win + X > Device Manager).
+Look for devices that might need an update.
+Update drivers for these devices as needed.
+9. Check BIOS/UEFI Settings
+Some settings in your laptop’s BIOS/UEFI can affect performance, such as power-saving modes or low-power states:
+
+Restart the computer and press Del to enter BIOS/UEFI setup (the key might vary by model).
+Check if any settings are set to high-performance mode.
+Save changes and exit.
+10. Perform a System Restore
+If none of the above steps work, consider performing a system restore to revert your laptop’s system files to an earlier point:
+
+Search for "System Restore" in the Start Menu.
+Follow the wizard to set up a restore point.
+Choose an older restore point and run it.
+These troubleshooting steps should help you identify and potentially resolve the issue with your laptop's performance. If none of these solutions work, it might be time to consider professional service or even replacement if necessary.
+
+
+
+
