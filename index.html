@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Learning Path: AI Engineering, Data Engineering, Data Science</title>
+<!-- Firebase setup: 1) console.firebase.google.com: create a project, add a Web app, paste its config into FB near the bottom of this file. 2) Build > Firestore Database > create. 3) Rules: allow read, write on /lp_resources/{doc}. Add Firebase Auth before sharing the URL publicly. -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=IBM+Plex+Sans:wght@400;500&display=swap">
+<style>
+:root{--bg:#f3f6f8;--card:#fff;--ink:#14213d;--mut:#5b6678;--line:#d9e0e7;--acc:#0f7f82;--accbg:#dff3f3;--dsa:#fff1d6;--dsal:#e09a1f;--dsai:#6b4500;--bld:#e3f4ea;--bldl:#2e8b57;--bldi:#14532d;--err:#b42318;
+font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1621;--card:#16212f;--ink:#e8eef5;--mut:#9aa8ba;--line:#2a3849;--acc:#4fc3c5;--accbg:#12383a;--dsa:#3a2c10;--dsal:#e0a437;--dsai:#f3d9a0;--bld:#12301f;--bldl:#4cb37a;--bldi:#bfe8d0;--err:#ff8a7a}}
+:root[data-theme="dark"]{--bg:#0e1621;--card:#16212f;--ink:#e8eef5;--mut:#9aa8ba;--line:#2a3849;--acc:#4fc3c5;--accbg:#12383a;--dsa:#3a2c10;--dsal:#e0a437;--dsai:#f3d9a0;--bld:#12301f;--bldl:#4cb37a;--bldi:#bfe8d0;--err:#ff8a7a}
+html{scroll-padding-top:env(safe-area-inset-top,0px);height:100%}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);line-height:1.55;font-size:16px;min-height:100%}
+.wrap{max-width:860px;margin:0 auto;padding:28px 16px 64px}
+h1,h2,h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;margin:0;line-height:1.15}
+h1{font-size:clamp(28px,6vw,44px);font-weight:800;letter-spacing:-.02em}
+.lead{color:var(--mut);max-width:62ch;margin:10px 0 22px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:10px 0;z-index:5}
+.tab{font:inherit;font-weight:500;border:1.5px solid var(--line);background:var(--card);color:var(--ink);padding:9px 16px;border-radius:999px;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tab:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.intro{border-left:4px solid var(--acc);padding:4px 0 4px 14px;margin:14px 0}
+.intro p{margin:0 0 6px}
+.bar{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin:8px 0 4px}
+.bar i{display:block;height:100%;width:0;background:var(--acc);transition:width .3s}
+.pct{font-size:14px;color:var(--mut)}
+.trail{position:relative;margin-top:22px;padding-left:46px}
+.trail:before{content:"";position:absolute;left:17px;top:6px;bottom:6px;width:3px;background:var(--line);border-radius:2px}
+.stage{position:relative;margin-bottom:22px}
+.node{position:absolute;left:-46px;top:0;width:36px;height:36px;border-radius:50%;background:var(--card);border:3px solid var(--acc);display:grid;place-items:center;font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:15px}
+.stage.fin .node{background:var(--acc);color:var(--bg)}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:18px}
+.head{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center;margin-bottom:4px}
+h2{font-size:22px}
+.chip{font-size:13px;padding:2px 10px;border-radius:999px;background:var(--accbg);color:var(--ink);border:1px solid var(--line)}
+.chip.lt{background:transparent;border-style:dashed;color:var(--mut)}
+.sp{font-size:14px;color:var(--mut);margin:0 0 12px}
+.topics{list-style:none;margin:0;padding:0}
+.topics li{padding:8px 0;border-top:1px solid var(--line)}
+.topics label{display:flex;gap:10px;cursor:pointer;align-items:flex-start}
+.topics input{margin-top:5px;width:18px;height:18px;accent-color:var(--acc);flex:none}
+.topics b{font-weight:500}
+.topics span{display:block;font-size:14px;color:var(--mut)}
+.topics li.ck b{text-decoration:line-through;color:var(--mut)}
+.box{border-radius:8px;padding:10px 14px;margin-top:12px;font-size:15px}
+.box b{display:block;margin-bottom:2px}
+.dsa{background:var(--dsa);border-left:5px solid var(--dsal);color:var(--ink)}
+.dsa b{color:var(--dsai)}
+.bld{background:var(--bld);border-left:5px solid var(--bldl)}
+.bld b{color:var(--bldi)}
+.res{margin-top:14px;border-top:2px solid var(--line);padding-top:12px}
+.res h3{font-size:16px;margin-bottom:6px}
+.res ul{list-style:none;margin:0 0 8px;padding:0}
+.res li{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px solid var(--line);align-items:center}
+.res a{color:var(--acc);word-break:break-word;font-weight:500}
+.res .none{color:var(--mut);font-size:14px;margin:0 0 8px}
+.x{font:inherit;border:0;background:none;color:var(--mut);cursor:pointer;padding:4px 8px;border-radius:6px;flex:none}
+.x:hover{color:var(--err)}
+.add{display:flex;gap:8px;flex-wrap:wrap}
+.add input{font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:8px;padding:8px 10px;min-width:0;flex:1 1 160px}
+.add input.u{flex:2 1 220px}
+.add button{font:inherit;font-weight:500;background:var(--acc);color:var(--bg);border:0;border-radius:8px;padding:8px 16px;cursor:pointer}
+.msg{font-size:14px;color:var(--err);margin:6px 0 0;min-height:1px}
+.foot{color:var(--mut);font-size:14px;margin-top:30px}
+@media (max-width:520px){.trail{padding-left:40px}.node{left:-40px;width:32px;height:32px}.trail:before{left:15px}}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+.note{font-size:14px;color:var(--mut);margin:10px 0 0}
+.tp{border-top:1px solid var(--line)}
+.tp summary{cursor:pointer;padding:10px 0;font-weight:500;list-style:none;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.tp summary::-webkit-details-marker{display:none}
+.tp summary:after{content:"+";color:var(--acc);font-size:22px;line-height:1;flex:none}
+.tp[open] summary:after{content:"\2212"}
+.tp summary:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.tp ul{margin:0 0 12px;padding-left:22px;color:var(--mut);font-size:15px}
+.tp li{margin:3px 0}
+.res li .chip{flex:none;font-size:12px}
+.res h3{margin-top:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Learning path from zero</h1>
+<p class="lead">Pick a track and follow the stages in order. Open any topic for its detailed sub-topics, solve the DSA problems suggested at each stage, and paste the links of the courses and videos you choose into each stage.</p>
+<div class="tabs" role="tablist" id="tabs"></div>
+<div id="intro"></div>
+<p class="note" id="note"></p>
+<div class="trail" id="trail"></div>
+<p class="foot">Links you add to a stage appear in every track that includes that stage. Where they are stored is shown in the note under the track description.</p>
+</div>
+<script>
+var P={
+setup:{g:"Setup",t:"Setup and tools",d:"3 days",
+ tp:["Terminal basics::folders, files, pipes, grep, environment variables","Git and GitHub::init, commit, branch, merge, pull request","Dev environment::VS Code, installing Python, virtual environments, Jupyter"],
+ dsa:"None yet. Just practice breaking a problem into small steps.",b:"Push a hello-world project to your own GitHub repo."},
+py:{g:"Python",t:"Python fundamentals",d:"2-3 weeks",
+ tp:["Syntax basics::variables, data types, input and output, operators","Control flow::if/else, for and while loops, break and continue","Functions::parameters, return values, scope, lambda","Data structures::list, tuple, dict, set, comprehensions","Strings and files::formatting, slicing, reading and writing text, CSV, JSON","Errors and modules::try/except, imports, pip packages","OOP basics::classes, init, methods, inheritance","Useful libraries::requests, datetime, os, argparse"],
+ dsa:"Big-O idea (how fast code grows), arrays and strings, hash maps (dict) and sets. Solve about 20 easy problems such as Two Sum, Valid Anagram, Reverse String, Contains Duplicate.",b:"A command-line expense tracker that saves data to a JSON file."},
+pyd:{g:"Python",t:"Python for data",d:"1.5-2 weeks",
+ tp:["NumPy::arrays, indexing, broadcasting, vectorized math","pandas basics::Series, DataFrame, loc and iloc, filtering","Cleaning data::missing values, duplicates, data types, string methods","Transforming::groupby, merge and join, pivot tables, apply","Visualization::Matplotlib, Seaborn, histogram, scatter, box plot","Getting data::read_csv, read_json, calling a simple API"],
+ dsa:"Sorting and searching basics, two pointers, sliding window, prefix sums. Solve about 15 easy problems such as Best Time to Buy and Sell Stock and Maximum Subarray.",b:"Analyze a public dataset (Titanic or IPL) and write down 5 insights with charts."},
+sql1:{g:"SQL",t:"SQL basics",d:"1 week",
+ tp:["Databases 101::tables, rows, columns, primary and foreign keys","Setup::install PostgreSQL, use DBeaver or pgAdmin","Reading data::SELECT, WHERE, ORDER BY, LIMIT, DISTINCT","Filtering::AND, OR, IN, BETWEEN, LIKE, NULL","Aggregates::COUNT, SUM, AVG, GROUP BY, HAVING","Joins::INNER, LEFT, RIGHT, FULL, self join","Writing data::INSERT, UPDATE, DELETE, CREATE TABLE, constraints"],
+ dsa:"Hash maps and sorting (the same ideas behind GROUP BY and ORDER BY). Keep solving 3 easy array or string problems a day.",b:"Design a small shop or library database with 4 linked tables and write 20 queries on it."},
+sql2:{g:"SQL",t:"SQL advanced and full revision",d:"1.5 weeks",
+ tp:["Subqueries and CTEs::WITH clause, correlated subqueries","Window functions::ROW_NUMBER, RANK, LAG, LEAD, running totals, PARTITION BY","Functions and logic::CASE, dates, strings, COALESCE","Set operations::UNION, INTERSECT, EXCEPT","Performance::indexes, EXPLAIN, why queries are slow","Transactions::ACID, commit, rollback, locks","Schema design::normalization, one-to-many, many-to-many","Complete revision::redo every topic from scratch, then 50 timed problems"],
+ dsa:"Stacks, queues, linked list basics, heaps (top-K problems). Solve about 10 easy and medium problems such as Valid Parentheses and Kth Largest Element.",b:"An analytics report on an e-commerce dataset using only CTEs and window functions."},
+math:{g:"DS",t:"Math and statistics",d:"2 weeks",
+ tp:["Descriptive stats::mean, median, variance, standard deviation, percentiles","Probability::events, conditional probability, Bayes theorem","Distributions::normal, binomial, Poisson","Inference::sampling, confidence intervals, hypothesis tests, p-values","Applied stats::correlation vs causation, A/B testing","Linear algebra::vectors, matrices, dot product, matrix multiplication","Calculus::derivatives, gradients, chain rule"],
+ dsa:"Recursion, math problems (GCD, primes, power), light bit manipulation. Solve about 10 easy problems.",b:"An A/B test analysis notebook that ends with a clear decision."},
+dsw:{g:"DS",t:"Data science workflow",d:"1.5 weeks",
+ tp:["Framing the problem::question, target, success metric","Exploratory analysis::distributions, outliers, relationships","Cleaning::missing values, wrong types, inconsistent text","Feature engineering::encoding, scaling, binning, date features","Splitting::train, validation and test sets, data leakage","Communicating::charts, dashboards (Streamlit or Power BI), short written insights"],
+ dsa:"Binary search, sorting-based problems, intervals. Solve about 10 easy and medium problems.",b:"An end-to-end analysis of a messy dataset with a one-page insights report."},
+ml:{g:"ML",t:"Classical machine learning",d:"3 weeks",
+ tp:["Core ideas::supervised vs unsupervised, loss, overfitting vs underfitting","Regression::linear, polynomial, Ridge and Lasso","Classification::logistic regression, KNN, Naive Bayes","Trees and ensembles::decision tree, random forest, XGBoost, LightGBM","Evaluation::accuracy, precision, recall, F1, ROC-AUC, RMSE, confusion matrix","Validation::cross-validation, hyperparameter tuning, imbalanced data","Unsupervised::K-Means, PCA","scikit-learn::pipelines, saving models"],
+ dsa:"Trees (traversals, BST), recursion and backtracking, binary search. Solve about 15 medium problems such as Maximum Depth of Binary Tree and Subsets.",b:"Predict customer churn or house prices, compare 3 models, submit to a Kaggle practice competition."},
+dl:{g:"ML",t:"Deep learning",d:"3 weeks",
+ tp:["Neural networks::neuron, activation functions, layers","Training::loss, gradient descent, backpropagation, Adam","PyTorch::tensors, autograd, Dataset and DataLoader, training loop","Regularization::dropout, batch norm, early stopping","CNNs::images and convolutions (overview)","RNNs and LSTMs::sequences (overview)","Transfer learning::pretrained models, Hugging Face basics"],
+ dsa:"Graphs (BFS, DFS) and an intro to dynamic programming. Solve about 10 medium problems such as Number of Islands and Climbing Stairs.",b:"An image or text classifier trained in PyTorch."},
+llm:{g:"GenAI",t:"LLM basics and prompting",d:"1.5 weeks",
+ tp:["How LLMs work::tokens, embeddings, attention, transformer (concept)","Settings::temperature, top-p, max tokens, context window","API basics::first call, system and user messages, streaming, chat history","Prompting::clear instructions, examples, step by step reasoning, delimiters","Structured outputs::JSON, Pydantic, validation, retries","Tool calling::letting the model call your functions"],
+ dsa:"Revisit strings, sliding window and hash maps. Light intro to tries. Solve about 8 medium problems.",b:"A chatbot with memory, plus a prompt that turns messy text into validated JSON."},
+rag:{g:"GenAI",t:"Embeddings and RAG",d:"2 weeks",
+ tp:["Embeddings::meaning as numbers, cosine similarity","Vector databases::Qdrant, pgvector, FAISS","Chunking::size, overlap, metadata","Retrieval::top-k, hybrid search with BM25, reranking","Generation::context prompts, citations, saying I don't know","Serving::FastAPI service, optional LangChain or LlamaIndex"],
+ dsa:"Heaps (top-K), binary search, graph basics. Solve about 10 medium problems.",b:"Question answering over your own PDFs with citations."},
+agents:{g:"GenAI",t:"Evals, agents and fine-tuning",d:"3 weeks",
+ tp:["Evaluation::test set, recall@k, faithfulness, LLM as judge, regression tests","Agents::reason, act, observe loop, multi-step tasks, memory, MCP","Safety::prompt injection, PII, output validation","Fine-tuning::when to use it vs prompting and RAG, LoRA, QLoRA, dataset prep","Cost and speed::caching, batching, smaller models, monitoring"],
+ dsa:"Dynamic programming (medium), topological sort, system design basics. Solve about 10 medium problems.",b:"An agent with 3 or 4 tools, plus an eval script showing before and after scores."},
+deploy:{g:"Engineering",t:"Deployment and MLOps",d:"1.5 weeks",
+ tp:["FastAPI::routes, request validation, async","Docker::images, containers, Dockerfile","Cloud basics::GCP or AWS, Cloud Run or Lambda, secrets","Experiment tracking::MLflow or Weights and Biases","CI/CD::GitHub Actions","Monitoring::logs, errors, drift"],
+ dsa:"LRU cache design, system design basics, mock interview rounds.",b:"Deploy your best project with a public URL, a README and your metrics."},
+excel:{g:"Excel",t:"Excel and spreadsheets",d:"1.5 weeks",
+ tp:["Excel basics::interface, cells and ranges, formatting, data types, sorting, filtering, freeze panes","Formulas::SUM, AVERAGE, COUNTIFS, SUMIFS, IF and nested IF, text and date functions, absolute vs relative references","Lookups::VLOOKUP, XLOOKUP, INDEX and MATCH, fixing common lookup errors","Pivot tables::rows, columns, values, grouping dates, slicers, calculated fields, pivot charts","Cleaning in Excel::remove duplicates, text to columns, Flash Fill, data validation, Power Query basics","Charts and dashboards::column, line and combo charts, conditional formatting, a one-page dashboard"],
+ dsa:"None needed yet. Practice logic by solving small puzzles with formulas.",b:"Clean a messy sales sheet and build a pivot-based dashboard from it."},
+ana:{g:"Data analysis",t:"Data analysis in practice",d:"2 weeks",
+ tp:["Asking the right question::business problem, KPIs, hypotheses, defining success metrics","Analysis methods::trend analysis, segmentation, cohort analysis, funnel and retention, RFM, Pareto (80/20)","Statistics for analysts::summary stats, outliers, correlation, sampling, confidence intervals, A/B tests","Data quality::missing data, duplicates, inconsistent labels, checking your numbers against the source","Storytelling::choosing charts, headline first then evidence, executive summary, presenting to non-technical people","Portfolio::3 case studies (sales, churn, marketing), clear README, publish on GitHub and LinkedIn"],
+ dsa:"Hash maps, sorting, two pointers. Solve 2 medium SQL problems a day, since analyst interviews test SQL more than DSA.",b:"One case study from raw data to an executive summary with a dashboard."},
+pbi:{g:"Power BI",t:"Power BI",d:"2 weeks",
+ tp:["Getting started::Power BI Desktop vs Service, report view, data view, model view, sample datasets","Power Query::connect to Excel, CSV, SQL and web, remove and split columns, change types, merge and append, unpivot, group by","Data modeling::star schema, fact and dimension tables, one-to-many relationships, filter direction, calendar table, hiding unused fields","DAX basics::calculated columns vs measures, SUM, COUNTROWS, DIVIDE, IF, SWITCH, RELATED, variables","DAX advanced::CALCULATE, FILTER, ALL, ALLEXCEPT, time intelligence (YTD, MTD, same period last year), RANKX","Visuals::bar, line, map, matrix, card, slicers, drill-down and drill-through, tooltips, bookmarks, conditional formatting","Publish and share::Power BI Service, workspaces, scheduled refresh, row-level security, apps"],
+ dsa:"No new DSA needed. Keep practicing 2-3 SQL aggregation and window problems a day, since reports sit on top of SQL.",b:"A sales dashboard with a calendar table, 6 DAX measures and drill-through, published to Power BI Service."},
+tab:{g:"Tableau",t:"Tableau",d:"1.5 weeks",
+ tp:["Tableau basics::connect to data, dimensions vs measures, marks card, worksheets, dashboards, stories","Charts::bar, line, scatter, maps, dual axis, histograms, filters and sorting","Calculations::calculated fields, LOD expressions (FIXED, INCLUDE, EXCLUDE), table calculations, parameters","Interactivity::filter and highlight actions, layout containers, publishing to Tableau Public"],
+ dsa:"No new DSA needed. Keep your daily SQL practice going.",b:"Rebuild your Power BI dashboard in Tableau and note what each tool did better."},
+de:{g:"Data engineering",t:"Data engineering core",d:"4 weeks",
+ tp:["Data modeling::OLTP vs OLAP, star and snowflake schema, fact and dimension tables","ETL and ELT::extract, transform, load, batch pipelines","Warehouses::BigQuery, Snowflake, Redshift","Orchestration::Airflow DAGs, scheduling, retries","Big data::Spark and PySpark, partitions, shuffles","Streaming::Kafka basics, batch vs stream","Data quality::tests, dbt, lineage","Storage and formats::Parquet, Delta, S3 or GCS buckets"],
+ dsa:"Heaps, queues, topological sort (the idea behind Airflow DAGs), merge intervals, hashing. Add hard SQL window problems.",b:"A scheduled pipeline: API to raw storage, SQL or dbt transform, warehouse table, dashboard."}
+};
+var T={
+ai:{n:"AI engineering",i:["You will build and ship apps powered by LLMs: chatbots, RAG systems and agents.","Go deep on Python, GenAI and deployment. Stages marked lighter need the basics only."],p:"setup py pyd sql1 sql2~ math~ ml dl llm rag agents deploy"},
+de:{n:"Data engineering",i:["You will build the pipelines that move, clean and store data for everyone else.","Go deep on SQL, Python and pipelines. Stages marked lighter need the basics only."],p:"setup py pyd~ sql1 sql2 de pbi~ deploy~"},
+ds:{n:"Data science",i:["You will analyze data, find patterns and build models that predict outcomes.","Go deep on statistics, SQL and ML. Stages marked lighter need the basics only."],p:"setup py pyd sql1 sql2 math dsw pbi tab~ ml dl~ llm~ deploy~"},
+da:{n:"Data analysis",i:["You will turn raw data into answers: clean it, analyze it and present it in dashboards.","Go deep on Excel, SQL, Power BI and storytelling. Stages marked lighter need the basics only."],p:"setup excel sql1 sql2 py~ pyd math~ ana pbi tab~"}
+};
+</script>
+<script type="module">
+var FB={apiKey:"YOUR_API_KEY",authDomain:"YOUR_PROJECT_ID.firebaseapp.com",projectId:"YOUR_PROJECT_ID",appId:"YOUR_APP_ID"};
+function ld(k,f){try{var v=localStorage.getItem(k);return v?JSON.parse(v):f}catch(e){return f}}
+function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+var res=ld("lp_res",{}),cur=ld("lp_track","ai"),op={},cloud=null,note="Links are saved in this browser only. Add your Firebase config in the page to sync them everywhere.";
+if(!T[cur])cur="ai";
+function h(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!==undefined)e.textContent=x;return e}
+var SEED={"setup":["Git and GitHub (your pick)|https://www.youtube.com/watch?v=mAFoROnOfHs|YouTube","Pro Git book|https://git-scm.com/book/en/v2|Book","GitHub Docs: Get started|https://docs.github.com/en/get-started|Docs","The Missing Semester (terminal, Git, tools)|https://missing.csail.mit.edu/|Course"],"py":["Python tutorial (your pick)|https://www.youtube.com/watch?v=WGJJIrtnfpk|YouTube","W3Schools Python tutorial|https://www.w3schools.com/python/default.asp|W3Schools","Official Python tutorial|https://docs.python.org/3/tutorial/|Docs","GeeksforGeeks Python tutorial|https://www.geeksforgeeks.org/python-programming-language-tutorial/|GeeksforGeeks","Exercism Python track (practice)|https://exercism.org/tracks/python|Practice","NeetCode roadmap (DSA order)|https://neetcode.io/roadmap|DSA","GeeksforGeeks DSA tutorial|https://www.geeksforgeeks.org/learn-data-structures-and-algorithms-dsa-tutorial/|DSA"],"pyd":["Pandas 1 (your pick)|https://www.youtube.com/watch?v=vtgDGrUiUKk|YouTube","Pandas 2 (your pick)|https://www.youtube.com/watch?v=gtjxAH8uaP0|YouTube","10 minutes to pandas|https://pandas.pydata.org/docs/user_guide/10min.html|Docs","NumPy absolute beginners guide|https://numpy.org/doc/stable/user/absolute_beginners.html|Docs","W3Schools Pandas tutorial|https://www.w3schools.com/python/pandas/default.asp|W3Schools","Kaggle Learn: Pandas|https://www.kaggle.com/learn/pandas|Course","Matplotlib tutorials|https://matplotlib.org/stable/tutorials/index.html|Docs"],"sql1":["SQL (your pick)|https://www.youtube.com/watch?v=5OdVJbNCSso|YouTube","W3Schools SQL tutorial|https://www.w3schools.com/sql/default.asp|W3Schools","SQLBolt interactive lessons|https://sqlbolt.com/|Practice","PostgreSQL official tutorial|https://www.postgresql.org/docs/current/tutorial.html|Docs","GeeksforGeeks SQL tutorial|https://www.geeksforgeeks.org/sql-tutorial/|GeeksforGeeks","HackerRank SQL practice|https://www.hackerrank.com/domains/sql|Practice"],"sql2":["SQL (your pick)|https://www.youtube.com/watch?v=5OdVJbNCSso|YouTube","LeetCode SQL 50 study plan|https://leetcode.com/studyplan/top-sql-50/|Practice","Mode SQL tutorial (advanced and window functions)|https://mode.com/sql-tutorial/|Course","PostgreSQL window functions|https://www.postgresql.org/docs/current/tutorial-window.html|Docs","Use The Index, Luke (indexes)|https://use-the-index-luke.com/|Book","DataLemur SQL interview questions|https://datalemur.com/|Practice"],"math":["Khan Academy: Statistics and probability|https://www.khanacademy.org/math/statistics-probability|Course","3Blue1Brown: Essence of linear algebra|https://www.3blue1brown.com/topics/linear-algebra|Video","StatQuest|https://statquest.org/|Video","Seeing Theory (visual probability)|https://seeing-theory.brown.edu/|Interactive"],"dsw":["Kaggle Learn: Data cleaning|https://www.kaggle.com/learn/data-cleaning|Course","Kaggle Learn: Feature engineering|https://www.kaggle.com/learn/feature-engineering|Course","Kaggle Learn: Data visualization|https://www.kaggle.com/learn/data-visualization|Course","Streamlit docs|https://docs.streamlit.io/|Docs"],"ml":["AI/ML full course (your pick)|https://www.youtube.com/live/hhGPiDrUe1c|YouTube","scikit-learn user guide|https://scikit-learn.org/stable/user_guide.html|Docs","Andrew Ng: Machine Learning Specialization|https://www.coursera.org/specializations/machine-learning-introduction|Course","Kaggle Learn: Intro to machine learning|https://www.kaggle.com/learn/intro-to-machine-learning|Course","GeeksforGeeks machine learning|https://www.geeksforgeeks.org/machine-learning/|GeeksforGeeks","StatQuest|https://statquest.org/|Video"],"dl":["PyTorch tutorials|https://pytorch.org/tutorials/|Docs","Karpathy: Neural Networks, Zero to Hero|https://karpathy.ai/zero-to-hero.html|Video","3Blue1Brown: Neural networks|https://www.3blue1brown.com/topics/neural-networks|Video","Hugging Face LLM course|https://huggingface.co/learn/llm-course|Course","fast.ai Practical Deep Learning|https://course.fast.ai/|Course"],"llm":["GenAI (your pick)|https://www.youtube.com/watch?v=F0GQ0l2NfHA|YouTube","LLMs from scratch (your pick)|https://www.youtube.com/watch?v=p3sij8QzONQ|YouTube","Prompt Engineering Guide|https://www.promptingguide.ai/|Guide","Anthropic prompt engineering docs|https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview|Docs","DeepLearning.AI short courses|https://www.deeplearning.ai/short-courses/|Course"],"rag":["Complete RAG tutorial (your pick)|https://www.youtube.com/watch?v=sVcwVQRHIc8|YouTube","RAG fundamentals (your pick)|https://www.youtube.com/watch?v=swvzKSOEluc|YouTube","LangChain (your pick)|https://www.youtube.com/watch?v=lG7Uxts9SXs|YouTube","Qdrant documentation|https://qdrant.tech/documentation/|Docs","LangChain docs|https://docs.langchain.com/|Docs","Pinecone: Retrieval augmented generation|https://www.pinecone.io/learn/retrieval-augmented-generation/|Guide"],"agents":["LangGraph (your pick)|https://www.youtube.com/watch?v=jGg_1h0qzaM|YouTube","LangGraph docs|https://langchain-ai.github.io/langgraph/|Docs","Anthropic: Building effective agents|https://www.anthropic.com/engineering/building-effective-agents|Guide","Model Context Protocol|https://modelcontextprotocol.io/|Docs","Ragas (RAG evaluation) docs|https://docs.ragas.io/|Docs","Hugging Face PEFT (LoRA)|https://huggingface.co/docs/peft|Docs"],"deploy":["FastAPI tutorial|https://fastapi.tiangolo.com/tutorial/|Docs","Docker: Get started|https://docs.docker.com/get-started/|Docs","MLflow docs|https://mlflow.org/docs/latest/|Docs","GitHub Actions docs|https://docs.github.com/en/actions|Docs","Made With ML|https://madewithml.com/|Course"],"de":["PySpark 1 (your pick)|https://www.youtube.com/watch?v=_C8kWso4ne4|YouTube","PySpark 2 (your pick)|https://www.youtube.com/watch?v=94w6hPk7nkM|YouTube","PySpark getting started|https://spark.apache.org/docs/latest/api/python/getting_started/index.html|Docs","Airflow tutorial|https://airflow.apache.org/docs/apache-airflow/stable/tutorial/index.html|Docs","dbt introduction|https://docs.getdbt.com/docs/introduction|Docs","Data Engineering Zoomcamp (free)|https://github.com/DataTalksClub/data-engineering-zoomcamp|Course","Apache Kafka introduction|https://kafka.apache.org/intro|Docs"],"excel":["Microsoft Excel help and training|https://support.microsoft.com/en-us/excel|Docs","W3Schools Excel tutorial|https://www.w3schools.com/excel/index.php|W3Schools"],"ana":["Google Data Analytics Certificate|https://www.coursera.org/professional-certificates/google-data-analytics|Course","Kaggle datasets (for case studies)|https://www.kaggle.com/datasets|Data","Storytelling with Data blog|https://www.storytellingwithdata.com/|Guide"],"pbi":["Microsoft Learn: Power BI|https://learn.microsoft.com/en-us/power-bi/|Docs","DAX Guide|https://dax.guide/|Reference","SQLBI articles and videos|https://www.sqlbi.com/|Guide"],"tab":["Tableau free training videos|https://www.tableau.com/learn/training|Course","Tableau Public (publish your work)|https://public.tableau.com/|Tool"]};
+function save(id){sv("lp_res",res);if(cloud)cloud.f.setDoc(cloud.f.doc(cloud.db,"lp_resources",id),{items:res[id]||[]}).catch(function(e){note="Could not save to Firebase ("+(e.code||"error")+"). Saved in this browser only.";render()})}
+function render(){
+ var tabs=document.getElementById("tabs");tabs.textContent="";
+ Object.keys(T).forEach(function(k){var b=h("button","tab",T[k].n);b.setAttribute("role","tab");b.setAttribute("aria-selected",k===cur);b.onclick=function(){cur=k;sv("lp_track",k);render()};tabs.appendChild(b)});
+ var tr=T[cur],list=tr.p.split(" ");
+ var intro=document.getElementById("intro");intro.textContent="";
+ var ib=h("div","intro");tr.i.forEach(function(s){ib.appendChild(h("p","",s))});intro.appendChild(ib);
+ document.getElementById("note").textContent=note;
+ var trail=document.getElementById("trail");trail.textContent="";
+ list.forEach(function(raw,ix){
+  var lt=raw.slice(-1)==="~",id=lt?raw.slice(0,-1):raw,p=P[id];
+  var st=h("div","stage"),card=h("div","card"),n=h("div","node",ix+1);
+  var hd=h("div","head");hd.appendChild(h("h2","",p.t));hd.appendChild(h("span","chip",p.g));hd.appendChild(h("span","chip",p.d));
+  if(lt)hd.appendChild(h("span","chip lt","go lighter"));
+  card.appendChild(hd);
+  card.appendChild(h("p","sp",p.tp.length+" topics. Open each one for its detailed sub-topics."));
+  p.tp.forEach(function(s,j){
+   var pr=s.split("::"),key=id+":"+j,dt=h("details","tp"),ul=h("ul");
+   pr[1].split(", ").forEach(function(x){ul.appendChild(h("li","",x))});
+   dt.appendChild(h("summary","",pr[0]));dt.appendChild(ul);
+   dt.open=!!op[key];dt.ontoggle=function(){if(dt.open)op[key]=1;else delete op[key]};
+   card.appendChild(dt)});
+  var d=h("div","box dsa");d.appendChild(h("b","","DSA to practice at this stage"));d.appendChild(h("span","",p.dsa));card.appendChild(d);
+  var b=h("div","box bld");b.appendChild(h("b","","Build this before moving on"));b.appendChild(h("span","",p.b));card.appendChild(b);
+  var r=h("div","res");var rc=SEED[id]||[];
+  if(rc.length){r.appendChild(h("h3","","Recommended resources"));var ru=h("ul");rc.forEach(function(q){var x=q.split("|"),li=h("li"),a=h("a","",x[0]);a.href=x[1];a.target="_blank";a.rel="noopener noreferrer";li.appendChild(a);li.appendChild(h("span","chip",x[2]));ru.appendChild(li)});r.appendChild(ru)}
+  r.appendChild(h("h3","","My added links"));
+  var rl=h("ul"),arr=res[id]||[];
+  if(!arr.length)r.appendChild(h("p","none","No links yet. Add the course, video or doc you chose."));
+  arr.forEach(function(it,k){
+   var li=h("li"),a=h("a","",it.t||it.u);a.href=it.u;a.target="_blank";a.rel="noopener noreferrer";
+   var x=h("button","x","Remove");x.setAttribute("aria-label","Remove "+(it.t||it.u));
+   x.onclick=function(){arr.splice(k,1);res[id]=arr;save(id);render()};
+   li.appendChild(a);li.appendChild(x);rl.appendChild(li)});
+  r.appendChild(rl);
+  var f=h("div","add"),ti=h("input"),ui=h("input","u"),ab=h("button","","Add link"),ms=h("p","msg");
+  ti.placeholder="Title (optional)";ti.setAttribute("aria-label","Resource title");
+  ui.placeholder="Paste link, https://...";ui.setAttribute("aria-label","Resource link");
+  function go(){var u=ui.value.trim();if(u&&!/^https?:\/\//i.test(u))u="https://"+u;
+   try{var o=new URL(u);if(o.protocol!=="http:"&&o.protocol!=="https:")throw 0}catch(e){ms.textContent="Enter a valid web link, for example https://youtube.com/...";return}
+   (res[id]=res[id]||[]).push({t:ti.value.trim(),u:u});save(id);render()}
+  ab.onclick=go;ui.onkeydown=ti.onkeydown=function(e){if(e.key==="Enter")go()};
+  f.appendChild(ti);f.appendChild(ui);f.appendChild(ab);r.appendChild(f);r.appendChild(ms);card.appendChild(r);
+  st.appendChild(n);st.appendChild(card);trail.appendChild(st)});
+}
+render();
+if(FB.projectId.indexOf("YOUR")!==0){
+ try{
+  var A=await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
+  var F=await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
+  var db=F.getFirestore(A.initializeApp(FB));
+  cloud={f:F,db:db};
+  note="Links sync through Firebase, so they show up on every device.";
+  F.onSnapshot(F.collection(db,"lp_resources"),function(s){var r={};s.forEach(function(d){r[d.id]=d.data().items||[]});res=r;sv("lp_res",res);render()},function(e){cloud=null;note="Firebase error ("+(e.code||"unknown")+"). Check your Firestore rules. Links are saved in this browser only.";render()});
+  render();
+ }catch(e){note="Could not load Firebase. Links are saved in this browser only.";render()}
+}
+</script>
+</body>
+</html>

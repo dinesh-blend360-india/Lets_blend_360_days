@@ -1,0 +1,24 @@
+git and github : https://youtu.be/mAFoROnOfHs
+
+python tutorial  : https://www.youtube.com/watch?v=WGJJIrtnfpk
+
+pyspark : https://youtu.be/_C8kWso4ne4
+pyspark : https://youtu.be/94w6hPk7nkM
+
+pandas : https://www.youtube.com/watch?v=vtgDGrUiUKk
+pandas : https://youtu.be/gtjxAH8uaP0
+
+SQL : https://youtu.be/5OdVJbNCSso
+
+genAI : https://www.youtube.com/watch?v=F0GQ0l2NfHA
+
+LLMs from Scratch : https://youtu.be/p3sij8QzONQ
+
+AIML full course : https://www.youtube.com/live/hhGPiDrUe1c?si=OJjxnxnM9gqmhuQV
+
+Complete RAG tutorial : https://youtu.be/sVcwVQRHIc8
+
+Rag fundamentals : https://youtu.be/swvzKSOEluc
+
+langchain : https://youtu.be/lG7Uxts9SXs
+Langgraph : https://youtu.be/jGg_1h0qzaM
