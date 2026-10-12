@@ -3,3 +3,7 @@ streamlit
 google-genai 
 python-dotenv
 ollama
+pydantic 
+httpx
+
+pytest
