@@ -233,7 +233,13 @@ def client_build(
 
             raw_output = response.message.content or ""
 
-           # raw_output = '{"status": "success",'  # temo replacement
+          #  raw_output = '{"status": "success",'  # temo replacement for malformed
+
+            # raw_output = '{"status": "success"}' # missing field required   
+
+            # raw_output = '{"status": "success", "answer": 123}' #wrong type val
+
+           # raw_output = 'Here is your answer: {"status":"success","answer":"Hello"}' # extra sounding text
             # Parse and validate the completed response.
             try:
                 result = validate_response(raw_output)
