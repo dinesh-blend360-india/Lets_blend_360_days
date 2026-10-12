@@ -1,13 +1,48 @@
 import os
-import ollama
-import streamlit as st
-from dotenv import load_dotenv
-
-#--comes day 3
 import json
+from types import SimpleNamespace
 from typing import Literal
+
+try:
+    import ollama
+except ModuleNotFoundError:  # pragma: no cover - handling missing optional dependency
+    class _OllamaResponseError(Exception):
+        def __init__(self, message="", status_code=None, error=None):
+            super().__init__(message)
+            self.status_code = status_code
+            self.error = error
+
+    class _OllamaClient:
+        def __init__(self, *args, **kwargs):
+            raise RuntimeError(
+                "The 'ollama' package is not installed. "
+                "Install it before starting the model client."
+            )
+
+    ollama = SimpleNamespace(
+        ResponseError=_OllamaResponseError,
+        Client=_OllamaClient,
+    )
+
+try:
+    import streamlit as st
+except ModuleNotFoundError:  # pragma: no cover - app only runs with Streamlit installed
+    st = None
+
+from dotenv import load_dotenv
 from pydantic import BaseModel, Field, StrictStr, ValidationError
 import httpx
+
+
+#adding test cases 
+
+from reliability import (
+    AIResponse,
+    MAX_ATTEMPTS,
+    generate_validated_response,
+    response_to_dict,
+)
+
 # Load configuration from .env
 load_dotenv()
 
@@ -22,10 +57,18 @@ API_KEY = os.getenv("LLM_API_KEY")
 MODEL = os.getenv("LLM_MODEL")
 
 
-# Create Ollama client
-client = ollama.Client(host=OLLAMA_HOST)
+# Create Ollama client only when the dependency is available.
+# client = ollama.Client(host=OLLAMA_HOST)
 
-
+client = None
+if ollama is not None and hasattr(ollama, "Client"):
+    try:
+        client = ollama.Client(
+            host=OLLAMA_HOST,
+            timeout=60.0,
+        )
+    except RuntimeError:
+        client = None
 #---output json structure class
 #-------output contract or schema-----
 
@@ -83,25 +126,26 @@ CONTRACT_INSTRUCTIONS = """
 
 
 
-#streamlit page config
-st.set_page_config(
-    page_title="Local GenAI",
-    page_icon="🤖",
-)
+if st is not None and __name__ == "__main__":
+    #streamlit page config
+    st.set_page_config(
+        page_title="Local GenAI",
+        page_icon="🤖",
+    )
 
-#title
-st.title("🤖 Local GenAI Playground")
-st.caption("Powered by Ollama — runs on your computer")
+    #title
+    st.title("🤖 Local GenAI Playground")
+    st.caption("Powered by Ollama — runs on your computer")
 
-#prompt area
-inbox_title = "Ask the AI assistant" #box head label
-prompt = st.text_area(
-    inbox_title,
-    placeholder="Enter your employee query here...",
-    help="Ask a question for the AI assistant.",
-)
+    #prompt area
+    inbox_title = "Ask the AI assistant" #box head label
+    prompt = st.text_area(
+        inbox_title,
+        placeholder="Enter your employee query here...",
+        help="Ask a question for the AI assistant.",
+    )
 
-st.caption(f"Model: {OLLAMA_MODEL}")
+    st.caption(f"Model: {OLLAMA_MODEL}")
 
 
 
@@ -112,8 +156,11 @@ def client_build(
     context=None,
     version_name="AI Response",):
 
+    if st is None:
+        raise RuntimeError(
+            "Streamlit is required to run this app. Install streamlit and launch it in a browser."
+        )
 
-    
     if not user_input.strip():
         st.warning("Please enter a prompt.")
         return
@@ -186,6 +233,7 @@ def client_build(
 
             raw_output = response.message.content or ""
 
+           # raw_output = '{"status": "success",'  # temo replacement
             # Parse and validate the completed response.
             try:
                 result = validate_response(raw_output)
@@ -357,45 +405,47 @@ def version2(user_input):
         version_name="Version B — Improved Instructions",
     )
 
-context = st.text_area(
-    "Relevant Context (Version C only)",
-    placeholder="Paste context here when the test case provides it...",
-    help="This context will only be given to Version C.",
-)
-# Version C: Instructions + relevant context
-def version3(user_input, context):
-    client_build(
-        model=OLLAMA_MODEL,
-        system_instructions=sys_inst(True),
-        user_input=user_input,
-        context=context,
-        version_name="Version C — Instructions + Context",
+if st is not None and __name__ == "__main__":
+    context = st.text_area(
+        "Relevant Context (Version C only)",
+        placeholder="Paste context here when the test case provides it...",
+        help="This context will only be given to Version C.",
     )
-# --------------------------------------------------
-# Run the application
-# --------------------------------------------------
 
-if __name__ == "__main__":
+    # Version C: Instructions + relevant context
+    def version3(user_input, context):
+        client_build(
+            model=OLLAMA_MODEL,
+            system_instructions=sys_inst(True),
+            user_input=user_input,
+            context=context,
+            version_name="Version C — Instructions + Context",
+        )
+
+    # --------------------------------------------------
+    # Run the application
+    # --------------------------------------------------
 
     st.subheader("Choose a version to test")
 
-    col1, col2, col3 = st.columns(3)
+    # col1, col2, col3 = st.columns(3)
+    col3, = st.columns(1)
 
     # Version A: Baseline
-    with col1:
-        if st.button("Run Version A", use_container_width=True):
-            if not prompt.strip():
-                st.warning("Please enter a question.")
-            else:
-                version1(prompt)
+    # with col1:
+    #     if st.button("Run Version A", use_container_width=True):
+    #         if not prompt.strip():
+    #             st.warning("Please enter a question.")
+    #         else:
+    #             version1(prompt)
 
-    # Version B: Improved instructions
-    with col2:
-        if st.button("Run Version B", use_container_width=True):
-            if not prompt.strip():
-                st.warning("Please enter a question.")
-            else:
-                version2(prompt)
+    # # Version B: Improved instructions
+    # with col2:
+    #     if st.button("Run Version B", use_container_width=True):
+    #         if not prompt.strip():
+    #             st.warning("Please enter a question.")
+    #         else:
+    #             version2(prompt)
 
     # Version C: Instructions + context
     with col3:
