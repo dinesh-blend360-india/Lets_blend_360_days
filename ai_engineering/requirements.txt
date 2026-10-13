@@ -1,10 +1,10 @@
 #------day1-simple-genai----#
 streamlit
 google-genai 
-python-dotenv
+python-dotenv==1.2.4
 ollama
-pydantic 
-httpx
+pydantic==2.14.1
+httpx==0.28.1
 
 # Document parsing: PDF and Word (.docx) readers
 pypdf
@@ -13,4 +13,12 @@ python-docx
 # Chunking: character, paragraph, sentence, word, and recursive strategies
 # use Python's standard library and need no additional packages.
 
-pytest
+pytest==9.1.1
+
+# Day 4: local Task Management API (sqlite3 is included with Python)
+fastapi==0.143.0
+uvicorn==0.54.0
+
+# Required FastAPI transitive packages downloaded during Day 4 setup
+annotated-doc==0.0.5
+opentelemetry-api==1.45.1
