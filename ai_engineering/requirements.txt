@@ -6,4 +6,11 @@ ollama
 pydantic 
 httpx
 
+# Document parsing: PDF and Word (.docx) readers
+pypdf
+python-docx
+
+# Chunking: character, paragraph, sentence, word, and recursive strategies
+# use Python's standard library and need no additional packages.
+
 pytest

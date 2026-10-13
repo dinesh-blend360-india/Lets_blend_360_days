@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Everyone can view assignment profiles. Only the owner can create or edit their profile.
+    match /assignments/{userId} {
+      allow read: if true;
+
+      allow create, update: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.data.keys().hasOnly(['displayName', 'sections', 'updatedAt'])
+        && request.resource.data.keys().hasAll(['displayName', 'sections', 'updatedAt'])
+        && request.resource.data.displayName is string
+        && request.resource.data.displayName.size() > 0
+        && request.resource.data.displayName.size() <= 80
+        && request.resource.data.sections is list
+        && request.resource.data.sections.size() <= 30
+        && request.resource.data.updatedAt is timestamp;
+
+      allow delete: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Anyone may submit a support ticket; tickets are private to trusted/admin tooling.
+    // Client apps cannot read, change, or delete submitted tickets.
+    match /supportTickets/{ticketId} {
+      allow create: if request.resource.data.keys().hasOnly(['name', 'email', 'message', 'createdAt'])
+        && request.resource.data.keys().hasAll(['name', 'email', 'message', 'createdAt'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 100
+        && request.resource.data.email is string
+        && request.resource.data.email.size() > 3
+        && request.resource.data.email.size() <= 254
+        && request.resource.data.message is string
+        && request.resource.data.message.size() > 0
+        && request.resource.data.message.size() <= 5000
+        && request.resource.data.createdAt is timestamp;
+
+      allow read, update, delete: if false;
+    }
+  }
+}

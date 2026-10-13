@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f7fb" />
+    <title>Login · Assignment Board</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body class="auth-page">
+    <header class="topbar">
+      <a class="brand" href="/index.html"><span class="brand-mark">AB</span><span>Assignment Board</span></a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a class="nav-link" href="/index.html">Assignments</a>
+        <a class="nav-link" href="/support.html">Support</a>
+      </nav>
+    </header>
+
+    <main class="auth-wrap">
+      <section class="auth-card">
+        <a class="back-link" href="/index.html">← Back to assignments</a>
+        <div class="auth-intro">
+          <div class="auth-mark">AB</div>
+          <p class="eyebrow eyebrow-muted">YOUR OWN SPACE</p>
+          <h1 id="authTitle">Welcome back</h1>
+          <p class="muted-text" id="authSubtitle">Sign in to add or update your assignment links.</p>
+        </div>
+
+        <div class="auth-switch" role="tablist" aria-label="Account action">
+          <button class="auth-tab active" id="showSignInBtn" type="button" role="tab" aria-selected="true">Sign in</button>
+          <button class="auth-tab" id="showSignUpBtn" type="button" role="tab" aria-selected="false">Create account</button>
+        </div>
+
+        <form id="signInForm" class="form-stack">
+          <label class="field-label" for="signInEmail">Email address</label>
+          <input class="text-input" id="signInEmail" type="email" autocomplete="email" required placeholder="you@example.com" />
+          <label class="field-label" for="signInPassword">Password</label>
+          <input class="text-input" id="signInPassword" type="password" autocomplete="current-password" required placeholder="Your password" />
+          <button class="text-button forgot-button" id="forgotPasswordBtn" type="button">Forgot password?</button>
+          <button class="button button-primary button-full" id="signInSubmitBtn" type="submit">Sign in</button>
+        </form>
+
+        <form id="signUpForm" class="form-stack" hidden>
+          <label class="field-label" for="signUpName">Your name</label>
+          <input class="text-input" id="signUpName" type="text" maxlength="80" autocomplete="name" required placeholder="e.g. Dinesh Marre" />
+          <label class="field-label" for="signUpEmail">Email address</label>
+          <input class="text-input" id="signUpEmail" type="email" autocomplete="email" required placeholder="you@example.com" />
+          <label class="field-label" for="signUpPassword">Create password</label>
+          <input class="text-input" id="signUpPassword" type="password" autocomplete="new-password" minlength="6" required placeholder="At least 6 characters" />
+          <p class="field-note">Your password is managed securely by Firebase Authentication and is never displayed on the board.</p>
+          <button class="button button-primary button-full" id="signUpSubmitBtn" type="submit">Create account</button>
+        </form>
+
+        <p class="notice auth-notice" id="authNotice" role="status" aria-live="polite"></p>
+        <div class="setup-notice" id="setupNotice" hidden></div>
+        <p class="auth-footnote">By continuing, you agree to use the board respectfully and share only links you are allowed to distribute.</p>
+      </section>
+      <div class="auth-aside">
+        <div class="aside-orb orb-one"></div><div class="aside-orb orb-two"></div>
+        <div class="aside-content">
+          <span class="aside-quote-mark">“</span>
+          <h2>Keep the useful stuff easy to find.</h2>
+          <p>One profile for your assignment links, with sections to keep everything organised.</p>
+          <div class="aside-mini-list"><span>✓</span> Share links publicly <span>✓</span> Edit your own list</div>
+        </div>
+      </div>
+    </main>
+    <script type="module" src="/login.js"></script>
+  </body>
+</html>
