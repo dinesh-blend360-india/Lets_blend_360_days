@@ -19,6 +19,7 @@ Example:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 from collections import OrderedDict
@@ -374,8 +375,14 @@ def _parse_table_rows(table_text: str) -> list[str]:
 def _split_table(table_text: str, chunk_size: int) -> list[str]:
     """Split oversized Markdown-like tables by rows and repeat their header."""
     lines = _parse_table_rows(table_text)
-    if len(lines) <= 2 or len(table_text) <= chunk_size:
+    if len(table_text) <= chunk_size:
         return [table_text.strip()]
+
+    if len(lines) <= 2:
+        # There is no safe row-level grouping to preserve. Split the complete
+        # table as a bounded character fallback rather than emitting an
+        # oversized chunk.
+        return chunk_by_character(table_text, chunk_size, 0)
 
     header = lines[0]
     has_separator = bool(re.match(r"^\|?\s*:?-{3,}", lines[1].lstrip("| ")))
@@ -385,12 +392,27 @@ def _split_table(table_text: str, chunk_size: int) -> list[str]:
     groups: list[str] = []
     current = prefix[:]
     for row in data_rows:
+        # A single row can be larger than the configured limit. It cannot be
+        # kept as one table row, so fall back to bounded text pieces.
+        if len(row) > chunk_size:
+            if len(current) > len(prefix):
+                groups.append("\n".join(current))
+                current = prefix[:]
+            groups.extend(chunk_by_character(row, chunk_size, 0))
+            continue
+
         candidate = "\n".join(current + [row])
-        if len(candidate) <= chunk_size or len(current) <= len(prefix):
+        if len(candidate) <= chunk_size:
             current.append(row)
         else:
-            groups.append("\n".join(current))
-            current = prefix[:] + [row]
+            if len(current) > len(prefix):
+                groups.append("\n".join(current))
+            # Preserve the header only when it leaves room for this row.
+            if len("\n".join(prefix + [row])) <= chunk_size:
+                current = prefix[:] + [row]
+            else:
+                groups.extend(chunk_by_character(row, chunk_size, 0))
+                current = prefix[:]
     if current:
         groups.append("\n".join(current))
     return groups
@@ -463,6 +485,32 @@ def chunk_documents(
     allowed = {"structure", "character", "paragraph", "sentence", "word", "recursive"}
     if method not in allowed:
         raise ValueError(f"method must be one of: {', '.join(sorted(allowed))}")
+
+    # The character/paragraph/sentence/word/recursive modes are deliberately
+    # raw text baselines. They must not pass through heading/table parsing.
+    if method != "structure":
+        splitters = {
+            "character": chunk_by_character,
+            "paragraph": chunk_by_paragraph,
+            "sentence": chunk_by_sentence,
+            "word": chunk_by_word,
+            "recursive": chunk_by_recursive,
+        }
+        output: list[dict[str, Any]] = []
+        for document_index, document in enumerate(documents):
+            metadata = dict(document.get("metadata", {}))
+            text_chunks = splitters[method](str(document.get("text", "")), chunk_size, overlap)
+            for chunk_index, text in enumerate(text_chunks):
+                output.append({
+                    "text": text,
+                    "metadata": {
+                        **metadata,
+                        "chunk_index": chunk_index,
+                        "content_type": "raw",
+                        "overlap_chars": overlap if chunk_index else 0,
+                    },
+                })
+        return _finalize_chunks(output)
 
     # Group PDF pages by source so heading context can continue over a page break.
     groups: OrderedDict[str, list[dict[str, Any]]] = OrderedDict()
@@ -647,10 +695,58 @@ def chunk_documents(
 
         flush(keep_overlap=False)
 
-    # The globally visible index is convenient when multiple source documents are used.
-    for index, chunk in enumerate(output):
-        chunk["metadata"]["global_chunk_index"] = index
-    return output
+    return _finalize_chunks(output)
+
+
+def _finalize_chunks(chunks: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Add stable IDs and a global index after all chunking is complete."""
+    seen: set[str] = set()
+    for index, chunk in enumerate(chunks):
+        metadata = chunk.setdefault("metadata", {})
+        source = str(metadata.get("source", ""))
+        page = str(metadata.get("page", metadata.get("page_start", "")))
+        basis = "|".join((source, page, str(metadata.get("chunk_index", index)), chunk.get("text", "")))
+        chunk_id = "chunk_" + hashlib.sha256(basis.encode("utf-8")).hexdigest()[:20]
+        if chunk_id in seen:
+            raise ValueError(f"Duplicate chunk_id generated: {chunk_id}")
+        seen.add(chunk_id)
+        metadata["chunk_id"] = chunk_id
+        metadata["global_chunk_index"] = index
+    return chunks
+
+
+def validate_chunks(
+    chunks: list[dict[str, Any]],
+    *,
+    chunk_size: int,
+) -> dict[str, Any]:
+    """Validate invariants required before embedding."""
+    errors: list[str] = []
+    ids: set[str] = set()
+    for index, chunk in enumerate(chunks):
+        text = str(chunk.get("text", ""))
+        metadata = chunk.get("metadata") or {}
+        chunk_id = metadata.get("chunk_id")
+        if not text.strip():
+            errors.append(f"chunk {index} is empty")
+        if not metadata.get("source"):
+            errors.append(f"chunk {index} is missing metadata.source")
+        if not chunk_id:
+            errors.append(f"chunk {index} is missing metadata.chunk_id")
+        elif chunk_id in ids:
+            errors.append(f"duplicate chunk_id: {chunk_id}")
+        else:
+            ids.add(str(chunk_id))
+        if len(text) > chunk_size:
+            errors.append(f"chunk {index} exceeds {chunk_size} characters ({len(text)})")
+    if errors:
+        raise ValueError("Chunk validation failed: " + "; ".join(errors))
+    return {
+        "valid": True,
+        "chunk_count": len(chunks),
+        "unique_chunk_ids": len(ids),
+        "max_text_chars": max((len(str(c.get("text", ""))) for c in chunks), default=0),
+    }
 
 
 def analyze_chunk_quality(chunks: list[dict[str, Any]]) -> dict[str, Any]:
@@ -695,17 +791,29 @@ def main() -> None:
     args = parser.parse_args()
 
     input_path = Path(args.file)
-    output_path = Path(args.output) if args.output else input_path.with_name(f"{input_path.stem}-chunked.json")
+    method_label = "structure" if args.method == "structure" else args.method
+    output_path = Path(args.output) if args.output else input_path.with_name(f"{input_path.stem}-{method_label}-chunked.json")
 
     documents = parse_document(input_path)
     chunks = chunk_documents(documents, chunk_size=args.chunk_size, overlap=args.overlap, method=args.method)
-    result: Any = chunks
+    validation = validate_chunks(chunks, chunk_size=args.chunk_size)
+    result: Any = {
+        "experiment": {
+            "method": args.method,
+            "chunk_size_chars": args.chunk_size,
+            "overlap_chars": args.overlap,
+            "source_document": str(input_path),
+        },
+        "validation": validation,
+        "chunks": chunks,
+    }
     if args.quality_report:
-        result = {"chunks": chunks, "quality_report": analyze_chunk_quality(chunks)}
+        result["quality_report"] = analyze_chunk_quality(chunks)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(f"Saved {len(chunks)} chunks to: {output_path}")
+    print(f"Validation: {validation['unique_chunk_ids']} unique chunk IDs; max size {validation['max_text_chars']} characters")
     if args.quality_report:
         report = result["quality_report"]
         print(f"Quality report: {report['chunk_count']} chunks; max chunk size {report['chunk_size_chars']['max']} characters")
