@@ -13,6 +13,11 @@ python-docx
 # Chunking: character, paragraph, sentence, word, and recursive strategies
 # use Python's standard library and need no additional packages.
 
+# day 6 - local BGE embeddings and vector retrieval
+# Sentence Transformers installs the compatible PyTorch/Transformers stack.
+numpy>=1.26,<3
+sentence-transformers>=3.0,<6
+
 pytest==9.1.1
 
 # Day 4: local Task Management API (sqlite3 is included with Python)
