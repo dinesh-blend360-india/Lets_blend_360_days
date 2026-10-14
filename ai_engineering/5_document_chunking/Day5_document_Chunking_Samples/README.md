@@ -1,30 +1,67 @@
-# Day 05 Sample Documents
+# Day 05 Test Guide
 
-These four files contain the same synthetic employee expense policy, represented as PDF, DOCX, TXT, and Markdown. The PDF is text-based (not a scan), so OCR should not be necessary. The DOCX has styled headings and a real Word table; the Markdown file has headings, a list, and a Markdown table; the TXT file contains plain-text headings and an ASCII-style table.
+## Goal
 
-## Run from `Day5_document_Chunking`
+Run the document parser on PDF, DOCX, TXT, and Markdown inputs; export parsed source text; compare two splitting approaches; and inspect all six chunk-quality dimensions.
 
-Copy the four sample documents into your `Day5_document_Chunking` folder alongside `parse-and-chunk.py`, then run one command at a time:
+## Requirements
+
+From the project folder, install the optional document readers:
 
 ```bash
-python parse-and-chunk.py "Day5_document_Chunking_Samples\employee_policy_pdf_sample.pdf" --quality-report --output "outputs\employee_policy_pdf_chunked.json"
-
-python parse-and-chunk.py "Day5_document_Chunking_Samples\employee_policy_docx_sample.docx" --quality-report --output "outputs\employee_policy_docx_chunked.json"
-
-python parse-and-chunk.py "Day5_document_Chunking_Samples\employee_policy_text_sample.txt" --quality-report --output "outputs\employee_policy_txt_chunked.json"
-
-python parse-and-chunk.py "Day5_document_Chunking_Samples\employee_policy_markdown_sample.md" --quality-report --output "outputs\employee_policy_md_chunked.json"
+python -m pip install pypdf python-docx
 ```
 
-Each input has a distinct base filename, so the generated `*-chunked.json` files will not overwrite one another.
+TXT and Markdown parsing use the Python standard library. The supplied PDF contains extractable text; OCR is not required for this sample.
 
-## Day 05 test focus
+## 1. Regenerate parsed source output
 
-1. Boundary preservation: the 30-day deadline, receipt requirements, late-claim conditions, and manager/Finance responsibilities.
-2. Heading relationship: `Expense Reimbursement Rules > Late claims and exceptions`, and other nested sections.
-3. Small detail: the receipt exception for expenses under 500 currency units.
-4. Overlap duplication: compare the end of one chunk with the beginning of the next.
-5. Metadata: inspect source, section/heading, page where available, and chunk indexes.
-6. Mixed structure: inspect numbered travel steps, checklist bullets, and the spending-limits table.
+```bash
+python export-parsed-source.py
+```
 
-These are test fixtures, not a pre-filled pass result. Inspect each generated JSON and record what actually happens.
+Outputs are written to `test_outputs/parsed_source/`. Each JSON contains the source text units and available source metadata. This is extracted/normalized parser output, not a guarantee of perfect OCR or layout recovery.
+
+## 2. Compare two chunking approaches
+
+Use the same Markdown input and keep the same chunk-size and overlap settings to make the comparison fair.
+
+**Structure-aware splitting**
+
+```bash
+python parse-and-chunk.py "test_inputs\employee_policy_markdown_sample.md" --method structure --chunk-size 250 --overlap 50 --quality-report --output "test_outputs\chunks\markdown_structure_250_50.json"
+```
+
+**Character-based splitting for oversized prose**
+
+```bash
+python parse-and-chunk.py "test_inputs\employee_policy_markdown_sample.md" --method character --chunk-size 250 --overlap 50 --quality-report --output "test_outputs\chunks\markdown_character_250_50.json"
+```
+
+In this implementation, both methods use the shared parser to recognize headings, lists, and tables. The selected method changes how oversized prose blocks are split. This distinction should be kept in mind when interpreting results.
+
+## 3. Run all four input formats
+
+```bash
+python parse-and-chunk.py "test_inputs\employee_policy_pdf_sample.pdf" --method structure --chunk-size 250 --overlap 50 --quality-report --output "test_outputs\chunks\pdf_structure_250_50.json"
+python parse-and-chunk.py "test_inputs\employee_policy_docx_sample.docx" --method structure --chunk-size 250 --overlap 50 --quality-report --output "test_outputs\chunks\docx_structure_250_50.json"
+python parse-and-chunk.py "test_inputs\employee_policy_text_sample.txt" --method structure --chunk-size 250 --overlap 50 --quality-report --output "test_outputs\chunks\txt_structure_250_50.json"
+python parse-and-chunk.py "test_inputs\employee_policy_markdown_sample.md" --method structure --chunk-size 250 --overlap 50 --quality-report --output "test_outputs\chunks\markdown_structure_250_50.json"
+```
+
+## 4. Inspect the six test cases
+
+1. **Boundary preservation:** search for the deadline, receipt rule, and missing-receipt explanation. Does each chunk keep a complete sentence or condition?
+2. **Heading relationship:** inspect `heading_path` and the `Section:` prefix. Compare Markdown/DOCX headings with PDF output.
+3. **Small detail:** search for the exception for claims below 500 currency units and for the seven-year retention period.
+4. **Overlap duplication:** compare the end of one chunk with the start of the next. Check whether the repeat contributes context.
+5. **Metadata:** inspect `source`, `chunk_index`, `global_chunk_index`, `heading_path`, `content_type`, `overlap_chars`, and `page`/`page_start`/`page_end` where present.
+6. **Mixed structure:** inspect table chunks. Verify that every split table chunk repeats the header and keeps values next to the right row labels.
+
+## 5. Evidence and reporting
+
+- Parsed source evidence: `test_outputs/parsed_source/`
+- Chunk outputs and measurable quality reports: `test_outputs/chunks/`
+- Written analysis: `Day05_Assignment_Response.md`
+
+The quality report measures sizes, basic metadata coverage, content types, and recorded overlap. It cannot automatically verify semantic correctness, heading relevance, or all table relationships; those require manual inspection.
