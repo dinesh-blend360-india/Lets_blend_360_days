@@ -20,6 +20,9 @@ sentence-transformers>=3.0,<6
 
 pytest==9.1.1
 
+# Day 9 architecture-decision exercise uses the Python standard library;
+# pytest above is its only development/test dependency.
+
 # Day 4: local Task Management API (sqlite3 is included with Python)
 fastapi==0.143.0
 uvicorn==0.54.0
