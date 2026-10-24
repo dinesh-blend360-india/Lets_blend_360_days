@@ -14,7 +14,7 @@ def test_phase5_case_file_has_required_cases():
 
 def test_known_expected_ids_exist_in_real_day06_index():
     cases_path = Path(__file__).resolve().parents[1] / "test_inputs" / "rag_test_cases.json"
-    metadata_path = Path(__file__).resolve().parents[3] / "6_embedding_and_retrival" / "outputs" / "embeddings" / "employee_policy_md_structure" / "metadata.json"
+    metadata_path = Path(__file__).resolve().parents[3] / "06_embedding_and_retrieval" / "outputs" / "embeddings" / "employee_policy_md_structure" / "metadata.json"
     if not metadata_path.is_file():
         return
     records = json.loads(metadata_path.read_text(encoding="utf-8"))

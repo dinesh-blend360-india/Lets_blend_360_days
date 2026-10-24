@@ -33,7 +33,7 @@ class EvaluationConfig:
             day07_project_dir=_path("DAY07_PROJECT_DIR", AI_ENGINEERING_DIR / "7_rag"),
             day06_index_dir=_path(
                 "DAY06_INDEX_DIR",
-                AI_ENGINEERING_DIR / "6_embedding_and_retrival" / "outputs" / "embeddings" / "employee_policy_md_structure",
+                AI_ENGINEERING_DIR / "06_embedding_and_retrieval" / "outputs" / "embeddings" / "employee_policy_md_structure",
             ),
             cases_file=_path("DAY08_CASES_FILE", PROJECT_DIR / "test_inputs" / "day08_common_cases.json"),
             output_dir=_path("DAY08_OUTPUT_DIR", PROJECT_DIR / "outputs"),

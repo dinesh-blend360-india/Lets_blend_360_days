@@ -38,7 +38,7 @@ experiments; use `--no-query-instruction` for an explicit alternative run.
 Day 06 reads the real files in:
 
 ```text
-ai_engineering/5_document_chunking/outputs/
+ai_engineering/05_document_chunking/outputs/
 ```
 
 The current Day 05 outputs are:
@@ -56,7 +56,7 @@ modified.
 ## Folder structure
 
 ```text
-6_embedding_and_retrival/
+06_embedding_and_retrieval/
 ├── README.md, SETUP.md, requirements.txt, .env.example
 ├── src/
 │   ├── config.py
@@ -73,12 +73,12 @@ modified.
 
 ## Example commands
 
-Run these from `ai_engineering/6_embedding_and_retrival` after installing the
+Run these from `ai_engineering/06_embedding_and_retrieval` after installing the
 shared requirements from `ai_engineering/requirements.txt`. The commands below
 use the actual Day 05 Markdown output.
 
 ```powershell
-$day05 = "..\5_document_chunking\outputs\employee_policy_md_chunked.json"
+$day05 = "..\05_document_chunking\outputs\employee_policy_md_chunked.json"
 $index = ".\outputs\embeddings\employee_policy_md_structure"
 
 python -m pip install -r ..\requirements.txt
@@ -90,7 +90,7 @@ python -m src.evaluation.evaluate_retrieval --queries .\test_inputs\retrieval_qu
 Use a separate index directory for the character baseline:
 
 ```powershell
-$character = "..\5_document_chunking\outputs\employee_policy_md_character_chunked.json"
+$character = "..\05_document_chunking\outputs\employee_policy_md_character_chunked.json"
 python -m src.embeddings.build_embeddings $character --index-dir .\outputs\embeddings\employee_policy_md_character
 ```
 
@@ -106,7 +106,7 @@ $day05Files = @(
 foreach ($file in $day05Files) {
   $name = [IO.Path]::GetFileNameWithoutExtension($file)
   python -m src.embeddings.build_embeddings `
-    "..\5_document_chunking\outputs\$file" `
+    "..\05_document_chunking\outputs\$file" `
     --index-dir ".\outputs\embeddings\$name"
 }
 ```
