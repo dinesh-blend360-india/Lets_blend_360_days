@@ -1,0 +1,20 @@
+[
+  {
+    "chunk_id": "mock_expense_001",
+    "text": "MOCK FALLBACK DATA: Expense claims in this demonstration must be submitted within 30 calendar days.",
+    "metadata": {
+      "source": "mock_knowledge.json",
+      "heading_path": "Mock Expense Policy",
+      "chunk_id": "mock_expense_001"
+    }
+  },
+  {
+    "chunk_id": "mock_travel_001",
+    "text": "MOCK FALLBACK DATA: Demonstration travel requests require recorded approval before booking.",
+    "metadata": {
+      "source": "mock_knowledge.json",
+      "heading_path": "Mock Travel Policy",
+      "chunk_id": "mock_travel_001"
+    }
+  }
+]

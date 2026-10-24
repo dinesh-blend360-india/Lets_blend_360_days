@@ -1,16 +1,32 @@
 #------day1-simple-genai----#
 streamlit
 google-genai 
-python-dotenv
+python-dotenv==1.2.4
 ollama
-pydantic 
-httpx
+pydantic==2.14.1
+httpx==0.28.1
 
-# Document parsing: PDF and Word (.docx) readers
+# day 5 stuff Document parsing: PDF and Word (.docx) readers
 pypdf
 python-docx
 
 # Chunking: character, paragraph, sentence, word, and recursive strategies
 # use Python's standard library and need no additional packages.
 
-pytest
+# day 6 - local BGE embeddings and vector retrieval
+# Sentence Transformers installs the compatible PyTorch/Transformers stack.
+numpy>=1.26,<3
+sentence-transformers>=3.0,<6
+
+pytest==9.1.1
+
+# Day 9 architecture-decision exercise uses the Python standard library;
+# pytest above is its only development/test dependency.
+
+# Day 4: local Task Management API (sqlite3 is included with Python)
+fastapi==0.143.0
+uvicorn==0.54.0
+
+# Required FastAPI transitive packages downloaded during Day 4 setup
+annotated-doc==0.0.5
+opentelemetry-api==1.45.1

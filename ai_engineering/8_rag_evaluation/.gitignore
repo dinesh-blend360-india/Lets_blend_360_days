@@ -1,0 +1,10 @@
+.env
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Historical evaluation output can contain retrieved document text.
+outputs/runs/
+outputs/summaries/latest_summary.md
+outputs/failure_analysis/failure_analysis.md
