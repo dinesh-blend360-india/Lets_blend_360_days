@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Architecture Decision Card",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "scenario_id", "business_outcome", "problem_type", "knowledge_source",
+    "knowledge_freshness", "citation_requirement", "data_availability",
+    "privacy_security", "latency_cost_constraints", "chosen_approach",
+    "why_this_approach", "rejected_alternative", "rejected_alternative_reason",
+    "key_risk", "discovery_question", "validation_plan"
+  ],
+  "properties": {
+    "scenario_id": {"type": "string", "minLength": 1},
+    "business_outcome": {"type": "string", "minLength": 1},
+    "problem_type": {"type": "string", "minLength": 1},
+    "knowledge_source": {"type": "string", "minLength": 1},
+    "knowledge_freshness": {"type": "string", "minLength": 1},
+    "citation_requirement": {"type": "string", "minLength": 1},
+    "data_availability": {"type": "string", "minLength": 1},
+    "privacy_security": {"type": "string", "minLength": 1},
+    "latency_cost_constraints": {"type": "string", "minLength": 1},
+    "chosen_approach": {"enum": ["PROMPT_CONTEXT", "RAG", "FINE_TUNING", "COMBINATION", "NO_LLM", "DECISION_DEFERRED"]},
+    "why_this_approach": {"type": "string", "minLength": 1},
+    "rejected_alternative": {"enum": ["PROMPT_CONTEXT", "RAG", "FINE_TUNING", "COMBINATION", "NO_LLM", "DECISION_DEFERRED"]},
+    "rejected_alternative_reason": {"type": "string", "minLength": 1},
+    "key_risk": {"type": "string", "minLength": 1},
+    "discovery_question": {"type": "string", "minLength": 1},
+    "validation_plan": {"type": "string", "minLength": 1},
+    "staged_approach": {"oneOf": [{"type": "array", "items": {"type": "string", "minLength": 1}}, {"type": "string", "minLength": 1}]}
+  }
+}

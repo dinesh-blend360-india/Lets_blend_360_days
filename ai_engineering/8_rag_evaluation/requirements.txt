@@ -1,0 +1,2 @@
+# Reuse the common AI Engineering dependencies.
+-r ../requirements.txt

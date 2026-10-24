@@ -1,0 +1,6 @@
+[
+  {"query": "How long do employees have to submit an expense claim?", "expected_text_contains": ["within 30 calendar days of the purchase date"], "notes": "Grounded in the Day 05 sample policy text."},
+  {"query": "When is a receipt required for an expense?", "expected_text_contains": ["A readable receipt is required for each expense of 500 currency units or more"], "notes": "Grounded in the Day 05 sample policy text."},
+  {"query": "What must happen before booking business travel?", "expected_text_contains": ["Business travel must be approved before tickets or accommodation are booked"], "notes": "Grounded in the Day 05 sample policy text."},
+  {"query": "What are the steps in the travel workflow?", "expected_text_contains": ["Create a travel request with destination, dates, purpose, and estimated cost"], "notes": "Grounded in the Day 05 sample policy text."}
+]

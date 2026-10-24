@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f5f7fb" />
+    <title>Support · Assignment Board</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="/index.html"><span class="brand-mark">AB</span><span>Assignment Board</span></a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a class="nav-link" href="/index.html">Assignments</a>
+        <a class="nav-link active" href="/support.html">Support</a>
+        <a class="button button-small button-outline" id="supportLoginBtn" href="/login.html">Login</a>
+      </nav>
+    </header>
+    <main class="support-wrap">
+      <section class="support-copy">
+        <p class="eyebrow"><span class="eyebrow-dot"></span> WE’RE HERE TO HELP</p>
+        <h1>Something not<br /><span>working right?</span></h1>
+        <p class="hero-description">Tell us what happened. Your message will be saved as a support ticket so it can be reviewed later.</p>
+        <div class="support-note"><span class="support-note-icon">✳</span><div><strong>What should I include?</strong><p>Describe the issue, which page you were using, and what you expected to happen. Please don’t include passwords.</p></div></div>
+      </section>
+      <section class="support-form-card">
+        <h2>Contact support</h2>
+        <p class="muted-text">All fields are required.</p>
+        <form id="supportForm" class="form-stack">
+          <label class="field-label" for="supportName">Your name</label>
+          <input class="text-input" id="supportName" type="text" maxlength="100" autocomplete="name" required placeholder="Name" />
+          <label class="field-label" for="supportEmail">Email address</label>
+          <input class="text-input" id="supportEmail" type="email" maxlength="254" autocomplete="email" required placeholder="you@example.com" />
+          <label class="field-label" for="supportMessage">How can we help?</label>
+          <textarea class="text-input textarea" id="supportMessage" maxlength="5000" rows="6" required placeholder="Explain the issue…"></textarea>
+          <button class="button button-primary button-full" id="sendTicketBtn" type="submit">Submit support ticket <span aria-hidden="true">→</span></button>
+        </form>
+        <p class="notice" id="supportNotice" role="status" aria-live="polite"></p>
+        <div class="setup-notice" id="setupNotice" hidden></div>
+      </section>
+      <footer class="site-footer support-footer"><span>Assignment Board</span><a href="/index.html">Return to assignments</a></footer>
+    </main>
+    <script type="module" src="/support.js"></script>
+  </body>
+</html>

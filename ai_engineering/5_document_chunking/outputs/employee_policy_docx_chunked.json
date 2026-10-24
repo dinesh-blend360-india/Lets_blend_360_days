@@ -1,0 +1,131 @@
+{
+  "chunks": [
+    {
+      "text": "Employee Expense and Travel Policy\n\nSample test document for Day 05 document parsing and chunk quality",
+      "metadata": {
+        "source": "Day5_document_Chunking_Samples\\employee_policy_docx_sample.docx",
+        "chunk_index": 0,
+        "heading_path": "",
+        "content_type": "paragraph",
+        "overlap_chars": 0,
+        "global_chunk_index": 0
+      }
+    },
+    {
+      "text": "Section: 1. Purpose\n\nThis policy explains how employees submit business expenses, obtain travel approval, and retain supporting records. It is a synthetic practice document created for testing document parsing and chunking; it is not legal, tax, or company policy advice.",
+      "metadata": {
+        "source": "Day5_document_Chunking_Samples\\employee_policy_docx_sample.docx",
+        "chunk_index": 1,
+        "heading_path": "1. Purpose",
+        "content_type": "paragraph",
+        "overlap_chars": 0,
+        "global_chunk_index": 1
+      }
+    },
+    {
+      "text": "Section: 2. Expense Reimbursement Rules > 2.1 Submission deadline and required context\n\nEmployees must submit expense claims within 30 calendar days of the purchase date. Every claim must include the purchase date, amount, business purpose, and the name of the project or customer. These details must remain together so a reviewer can understand what the expense was for.\n\nA readable receipt is required for each expense of 500 currency units or more. If a receipt is unavailable, the employee must attach a written explanation and obtain manager approval before Finance reviews the claim. The explanation does not automatically guarantee reimbursement.",
+      "metadata": {
+        "source": "Day5_document_Chunking_Samples\\employee_policy_docx_sample.docx",
+        "chunk_index": 2,
+        "heading_path": "2. Expense Reimbursement Rules > 2.1 Submission deadline and required context",
+        "content_type": "paragraph",
+        "overlap_chars": 0,
+        "global_chunk_index": 2
+      }
+    },
+    {
+      "text": "Section: 2. Expense Reimbursement Rules > 2.2 Late claims and exceptions\n\nLate claims are normally rejected. A manager may approve a late claim only when the employee explains the delay and Finance records the exception. Approval by a manager does not remove the requirement to provide the other required details and supporting evidence.\n\nSmall but important exception: claims under 500 currency units do not require a receipt, but they still require the purchase date, amount, and business purpose.",
+      "metadata": {
+        "source": "Day5_document_Chunking_Samples\\employee_policy_docx_sample.docx",
+        "chunk_index": 3,
+        "heading_path": "2. Expense Reimbursement Rules > 2.2 Late claims and exceptions",
+        "content_type": "paragraph",
+        "overlap_chars": 0,
+        "global_chunk_index": 3
+      }
+    },
+    {
+      "text": "Section: 3. Business Travel > 3.1 Booking and approval\n\nBusiness travel must be approved before tickets or accommodation are booked. The request must state the business purpose, destination, planned dates, estimated total cost, and the manager who approved it. If plans change, the employee must update the request and explain any material cost increase before making additional bookings.",
+      "metadata": {
+        "source": "Day5_document_Chunking_Samples\\employee_policy_docx_sample.docx",
+        "chunk_index": 4,
+        "heading_path": "3. Business Travel > 3.1 Booking and approval",
+        "content_type": "paragraph",
+        "overlap_chars": 0,
+        "global_chunk_index": 4
+      }
+    },
+    {
+      "text": "Section: 3. Business Travel > 3.2 Required workflow\n\nCreate a travel request with destination, dates, purpose, and estimated cost.\n\nSend the request to the direct manager and wait for recorded approval.\n\nBook travel after approval and keep confirmations and itemized receipts.\n\nSubmit the final expense claim within 30 calendar days after the purchase date.",
+      "metadata": {
+        "source": "Day5_document_Chunking_Samples\\employee_policy_docx_sample.docx",
+        "chunk_index": 5,
+        "heading_path": "3. Business Travel > 3.2 Required workflow",
+        "content_type": "paragraph",
+        "overlap_chars": 0,
+        "global_chunk_index": 5
+      }
+    },
+    {
+      "text": "Section: 3. Business Travel > 3.3 Spending limits\n\n| Expense type | Standard limit | Additional rule |\n| --- | --- | --- |\n| Hotel | Up to 8,000 per night | Higher amounts require written director approval before booking. |\n| Meals | Up to 1,200 per day | Alcohol is not reimbursable. |\n| Local transport | Actual cost with receipt | Use public transport where practical; explain exceptions. |\n| Training materials | Up to 3,000 per event | Include the course or event name in the claim. |",
+      "metadata": {
+        "source": "Day5_document_Chunking_Samples\\employee_policy_docx_sample.docx",
+        "chunk_index": 6,
+        "heading_path": "3. Business Travel > 3.3 Spending limits",
+        "content_type": "table",
+        "overlap_chars": 0,
+        "global_chunk_index": 6
+      }
+    },
+    {
+      "text": "Section: 4. Records and Review\n\nEmployees must retain receipts, booking confirmations, approvals, and claim-related correspondence for seven years after reimbursement. Finance may request these records during an audit.\n\nA submitted claim is not the same as an approved claim. Reimbursement occurs only after the required information is reviewed and the claim status is changed to Approved. If a claim is returned for missing information, the employee must correct it before the review continues.\n\nWhen a claim contains several line items, each line item must have its own date, amount, and business purpose. Do not rely on the total alone, because the reviewer must be able to connect each amount to its supporting evidence.",
+      "metadata": {
+        "source": "Day5_document_Chunking_Samples\\employee_policy_docx_sample.docx",
+        "chunk_index": 7,
+        "heading_path": "4. Records and Review",
+        "content_type": "paragraph",
+        "overlap_chars": 0,
+        "global_chunk_index": 7
+      }
+    },
+    {
+      "text": "Section: 5. Quick Review Checklist\n\nThe claim is submitted within 30 calendar days, or a documented late-claim exception is attached.\n\nEach line item includes the date, amount, business purpose, and project or customer where applicable.\n\nReceipts are attached for expenses of 500 currency units or more.\n\nTravel approval was recorded before booking.\n\nSupporting records will be retained for seven years after reimbursement.",
+      "metadata": {
+        "source": "Day5_document_Chunking_Samples\\employee_policy_docx_sample.docx",
+        "chunk_index": 8,
+        "heading_path": "5. Quick Review Checklist",
+        "content_type": "paragraph",
+        "overlap_chars": 0,
+        "global_chunk_index": 8
+      }
+    },
+    {
+      "text": "Section: 6. Contact and Ownership\n\nFinance owns the reimbursement review process. The employee is responsible for complete and accurate information; the manager is responsible for documenting any exception they approve. For an unresolved claim, the employee should contact Finance and include the claim reference number.",
+      "metadata": {
+        "source": "Day5_document_Chunking_Samples\\employee_policy_docx_sample.docx",
+        "chunk_index": 9,
+        "heading_path": "6. Contact and Ownership",
+        "content_type": "paragraph",
+        "overlap_chars": 0,
+        "global_chunk_index": 9
+      }
+    }
+  ],
+  "quality_report": {
+    "chunk_count": 10,
+    "chunk_size_chars": {
+      "min": 102,
+      "max": 724,
+      "average": 422.6
+    },
+    "chunks_with_source": 10,
+    "chunks_with_heading_context": 9,
+    "chunks_with_page_location": 0,
+    "content_type_counts": {
+      "paragraph": 9,
+      "table": 1
+    },
+    "recorded_overlap_chars": 0,
+    "note": "This report checks measurable metadata/size properties. Boundary meaning, heading relevance, small details, and table semantics still require the six manual test cases."
+  }
+}
