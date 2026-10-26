@@ -287,8 +287,13 @@ def _real_handle(message: str, model: str, host: str, allow_write: bool) -> dict
 
     add_day_to_path(10)
 
-    from src.assistant import ControlledAssistant
-    from src.config import AppConfig, ActorContext
+    import importlib
+    assistant_mod = importlib.import_module("src.assistant")
+    config_mod = importlib.import_module("src.config")
+
+    ControlledAssistant = assistant_mod.ControlledAssistant
+    AppConfig = config_mod.AppConfig
+    ActorContext = config_mod.ActorContext
 
     config = AppConfig.from_environment()
     actor = ActorContext("hub-user", allow_write)

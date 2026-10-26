@@ -99,8 +99,11 @@ def render():
             add_day_to_path(8)
             add_day_to_path(7)  # Day 08 imports Day 07
 
-            from src.config import EvaluationConfig
-            from src.evaluator import run_evaluation
+            import importlib
+            config_mod = importlib.import_module("src.config")
+            eval_mod = importlib.import_module("src.evaluator")
+            EvaluationConfig = config_mod.EvaluationConfig
+            run_evaluation = eval_mod.run_evaluation
 
             config = EvaluationConfig.from_environment()
 

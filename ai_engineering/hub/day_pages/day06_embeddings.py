@@ -72,7 +72,9 @@ Then refresh this page.
 
         try:
             add_day_to_path(6)
-            from src.retrieval.search import search_index
+            import importlib
+            search_mod = importlib.import_module("src.retrieval.search")
+            search_index = search_mod.search_index
 
             with st.spinner("Searching embeddings…"):
                 results = search_index(query.strip(), str(selected_path), k=top_k)

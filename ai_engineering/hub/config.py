@@ -36,10 +36,17 @@ DAY_DIRS = {
 
 
 def add_day_to_path(day_num: int):
-    """Insert a day's directory at the front of sys.path for imports."""
+    """Insert a day's directory at the front of sys.path for imports,
+    and clear any cached 'src' modules from sys.modules to prevent cross-day collisions."""
     day_dir = str(DAY_DIRS[day_num])
-    if day_dir not in sys.path:
-        sys.path.insert(0, day_dir)
+    if day_dir in sys.path:
+        sys.path.remove(day_dir)
+    sys.path.insert(0, day_dir)
+
+    # Purge any cached 'src' or 'src.*' modules from other days
+    for mod_name in list(sys.modules.keys()):
+        if mod_name == "src" or mod_name.startswith("src."):
+            del sys.modules[mod_name]
 
 
 def get_ollama_client(host: str | None = None):
