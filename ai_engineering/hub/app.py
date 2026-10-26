@@ -1,5 +1,5 @@
 """
-AI Engineering Hub — Unified Streamlit application for Days 01–10.
+AI Engineering Hub — Unified Streamlit application for Days 01–11.
 
 Launch:
     cd ai_engineering
@@ -141,7 +141,7 @@ icon, name, desc = DAYS[selected_day]
 st.markdown(
     f"""<div class="hub-header">
         <h1>{icon} {name} — {desc}</h1>
-        <p>AI Engineering • 10-Day Learning Journey</p>
+        <p>AI Engineering • 11-Day Learning Journey</p>
     </div>""",
     unsafe_allow_html=True,
 )
@@ -158,6 +158,7 @@ PAGE_MODULES = [
     "day_pages.day08_evaluation",
     "day_pages.day09_architecture",
     "day_pages.day10_tool_calling",
+    "day_pages.day11_agents",
 ]
 
 try:
