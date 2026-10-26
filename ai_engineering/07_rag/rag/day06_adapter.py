@@ -16,7 +16,7 @@ from typing import Any
 
 
 PROJECT_DIR = Path(__file__).resolve().parents[2]
-DAY06_DIR = PROJECT_DIR / "6_embedding_and_retrival"
+DAY06_DIR = PROJECT_DIR / "06_embedding_and_retrieval"
 DEFAULT_INDEX_DIR = DAY06_DIR / "outputs" / "embeddings" / "employee_policy_md_structure"
 
 

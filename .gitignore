@@ -1,3 +1,17 @@
+# Environment & secrets
 .env
-*/venv/*
-venv
+venv/
+*/venv/
+
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# IDE
+.vscode/
+.idea/
+
+# Runtime data
+*.db

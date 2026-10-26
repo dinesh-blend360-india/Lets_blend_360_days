@@ -8,12 +8,12 @@ the Day 06 index, retrieval settings, or embeddings.
 
 The workspace contains:
 
-- Day 05 chunks under `../5_document_chunking/outputs/`
-- Day 06 retrieval code under `../6_embedding_and_retrival/src/retrieval/`
-- Day 06 configuration under `../6_embedding_and_retrival/src/config.py`
-- Day 06 BGE provider under `../6_embedding_and_retrival/src/embeddings/bge_provider.py`
-- Day 06 query examples under `../6_embedding_and_retrival/test_inputs/`
-- Real Day 06 indexes under `../6_embedding_and_retrival/outputs/embeddings/`
+- Day 05 chunks under `../05_document_chunking/outputs/`
+- Day 06 retrieval code under `../06_embedding_and_retrieval/src/retrieval/`
+- Day 06 configuration under `../06_embedding_and_retrieval/src/config.py`
+- Day 06 BGE provider under `../06_embedding_and_retrieval/src/embeddings/bge_provider.py`
+- Day 06 query examples under `../06_embedding_and_retrieval/test_inputs/`
+- Real Day 06 indexes under `../06_embedding_and_retrieval/outputs/embeddings/`
 
 The available real indexes are:
 
@@ -232,7 +232,7 @@ A readable receipt is required for each expense of 500 currency units or more. I
 
 The evidence ID, rank, similarity, and text in this example come from the real
 Day 06 exported retrieval result at
-`../6_embedding_and_retrival/outputs/retrieval_results/receipt.json`.
+`../06_embedding_and_retrieval/outputs/retrieval_results/receipt.json`.
 
 ## Run it
 
@@ -252,7 +252,7 @@ To select the no-instruction Day 06 index explicitly:
 
 ```powershell
 python -m rag.day06_adapter `
-  --index-dir ..\6_embedding_and_retrival\outputs\embeddings\employee_policy_md_no_instruction `
+  --index-dir ..\06_embedding_and_retrieval\outputs\embeddings\employee_policy_md_no_instruction `
   --query "When is a receipt required?" `
   --top-k 5
 ```
