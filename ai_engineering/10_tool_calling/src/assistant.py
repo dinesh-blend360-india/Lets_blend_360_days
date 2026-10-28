@@ -55,16 +55,22 @@ class ControlledAssistant:
                 final = reply.content.strip()
                 if not final:
                     return self._failure("EMPTY_MODEL_RESPONSE", "The model returned neither text nor a tool request", activity, correlation_id)
+                write_outcome = self._write_outcome(activity)
+                if write_outcome:
+                    final = write_outcome
                 return {"ok": True, "correlation_id": correlation_id, "final_response": final, "tool_activity": activity}
             if round_number > self.config.max_tool_rounds:
                 return self._failure("TOOL_ROUND_LIMIT", f"Tool-call round limit of {self.config.max_tool_rounds} was reached", activity, correlation_id)
             messages.append({"role": "assistant", "content": reply.content, "tool_calls": [self._call_message(item) for item in reply.tool_calls]})
             for call in reply.tool_calls:
                 call_id = call.call_id or self._fingerprint(call.name, call.arguments)
-                result = self.registry.execute(
-                    tool_name=call.name, raw_arguments=call.arguments, actor=actor,
-                    confirmation_handler=confirmation_handler, call_id=call_id, correlation_id=correlation_id,
-                )
+                if call.name == "create_service_request" and self._write_outcome(activity):
+                    result = {"ok": False, "tool_name": call.name, "status": "duplicate_action_blocked", "simulated": True}
+                else:
+                    result = self.registry.execute(
+                        tool_name=call.name, raw_arguments=call.arguments, actor=actor,
+                        confirmation_handler=confirmation_handler, call_id=call_id, correlation_id=correlation_id,
+                    )
                 activity.append({"round": round_number, "call_id": call_id, "tool_name": call.name, "result": result})
                 messages.append({"role": "tool", "tool_name": call.name, "content": json.dumps(result, ensure_ascii=False)})
         return self._failure("TOOL_ROUND_LIMIT", "Tool-call round limit reached", activity, correlation_id)
@@ -80,7 +86,21 @@ class ControlledAssistant:
 
     @staticmethod
     def _failure(code: str, message: str, activity: list[dict[str, Any]], correlation_id: str | None = None) -> dict[str, Any]:
+        outcome = ControlledAssistant._write_outcome(activity)
+        if outcome:
+            message = f"{outcome} {message}"
         return {"ok": False, "correlation_id": correlation_id, "final_response": message, "tool_activity": activity, "error": {"code": code, "message": message}}
+
+    @staticmethod
+    def _write_outcome(activity: list[dict[str, Any]]) -> str:
+        for item in activity:
+            if item["tool_name"] != "create_service_request" or item["result"].get("status") == "duplicate_action_blocked":
+                continue
+            result = item["result"]
+            if result.get("ok") is True and result.get("status") == "created" and result.get("request_id"):
+                return f"Simulated service request created: {result['request_id']}."
+            return f"No service request was created: {result.get('status', 'unknown result')}."
+        return ""
 
 
 def terminal_confirmation(summary: str) -> bool:

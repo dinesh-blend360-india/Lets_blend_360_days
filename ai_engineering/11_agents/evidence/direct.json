@@ -1,0 +1,17 @@
+﻿{
+  "run_id": "9d3088573cee493b9179ab899489af67",
+  "status": "completed",
+  "answer": "Hello. I can help with policy questions and service requests.",
+  "trace": [
+    {
+      "step": 1,
+      "kind": "Thought",
+      "content": "Hello. I can help with policy questions and service requests."
+    },
+    {
+      "step": 1,
+      "kind": "Final Answer",
+      "content": "Hello. I can help with policy questions and service requests."
+    }
+  ]
+}

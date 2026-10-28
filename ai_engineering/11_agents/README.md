@@ -1,5 +1,20 @@
 # Day 11 — Agents and the ReAct loop
 
+## Enterprise challenge from Day 10
+
+`enterprise_agent.py` runs a bounded agent loop over Day 10's two controlled tools: `lookup_internal_knowledge` and `create_service_request`. Day 10's registry continues to validate inputs, permissions, confirmation, outputs, and audit events. The Day 11 loop records each Thought, Action, Observation, and Final Answer with a run ID. It can answer directly without a tool and stops with an explicit status when its step budget is spent.
+
+Run the two deterministic challenge cases without Ollama:
+
+```powershell
+python enterprise_agent.py --demo direct
+python enterprise_agent.py --demo two-tools
+```
+
+The JSON output is the trace evidence for each case. The two-tool example uses Day 10's clearly labelled mock knowledge backend. It does not claim live policy retrieval. A confirmed write still requires the Day 10 registry's application permission and human confirmation.
+
+## Leave example for Day 12
+
 Day 10 introduced controlled, single tool requests. Day 11 shows an agent choosing a sequence of steps: **Thought → Action → Observation → Final Answer**. The local Ollama model chooses which tool to ask for next; Python parses and executes only three named demo tools.
 
 The example is a leave assistant with hard-coded employee balances and festival dates. It can read a balance, look up a festival date, and **print** a leave request. It does not change an HR system or save a request. These records are teaching data and must not be used as current HR policy or holiday dates.

@@ -15,7 +15,7 @@ def app_config(tmp_path):
         model_timeout_seconds=1,
         max_tool_rounds=3,
         knowledge_backend="mock",
-        day07_project_dir=ai_dir / "7_rag",
+        day07_project_dir=ai_dir / "07_rag",
         day06_index_dir=ai_dir / "06_embedding_and_retrieval" / "outputs" / "embeddings" / "employee_policy_md_structure",
         mock_knowledge_file=project / "data" / "mock_knowledge.json",
         actions_dir=tmp_path / "actions",

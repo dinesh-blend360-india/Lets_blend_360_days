@@ -36,6 +36,24 @@ def test_normal_confirmed_action_lifecycle(app_config):
     assert len(list(app_config.actions_dir.glob("*.json"))) == 1
 
 
+def test_write_result_controls_answer_and_prevents_second_action(app_config):
+    call = RequestedToolCall("create_service_request", {"title": "VPN access", "description": "VPN does not connect", "priority": "normal"})
+    replies = [ModelReply(tool_calls=[call]), ModelReply(tool_calls=[call]), ModelReply(content="Created SR-WRONG")]
+    result = build(app_config, replies).handle("Create VPN request", actor=ActorContext("user", True), confirmation_handler=lambda _: True)
+    assert len(list(app_config.actions_dir.glob("*.json"))) == 1
+    assert result["tool_activity"][1]["result"]["status"] == "duplicate_action_blocked"
+    actual_id = result["tool_activity"][0]["result"]["request_id"]
+    assert result["final_response"] == f"Simulated service request created: {actual_id}."
+
+
+def test_denied_action_cannot_be_claimed_as_created(app_config):
+    call = RequestedToolCall("create_service_request", {"title": "VPN access", "description": "VPN does not connect", "priority": "normal"})
+    replies = [ModelReply(tool_calls=[call]), ModelReply(content="Request submitted successfully")]
+    result = build(app_config, replies).handle("Create VPN request", actor=ActorContext("user", False), confirmation_handler=lambda _: True)
+    assert result["final_response"] == "No service request was created: permission_denied."
+    assert not app_config.actions_dir.exists()
+
+
 def test_ambiguous_request_causes_clarification_and_no_action(app_config):
     result = build(app_config, [ModelReply(content="What would you like me to do, and what details should I use?")]).handle(
         "Can you take care of this?", actor=ActorContext("user", True), confirmation_handler=lambda _: True

@@ -4,3 +4,5 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .env
+outputs/actions/*.json
+outputs/logs/*.jsonl

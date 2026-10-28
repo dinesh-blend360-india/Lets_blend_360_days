@@ -5,6 +5,9 @@ from datetime import date
 from importlib.util import module_from_spec, spec_from_file_location
 from io import StringIO
 from pathlib import Path
+import json
+import subprocess
+import sys
 from types import SimpleNamespace
 
 import streamlit as st
@@ -42,7 +45,7 @@ def _load_agent():
     return module
 
 
-def render():
+def _render_leave():
     st.caption("See how a model proposes one action, receives its observation, and repeats.")
     st.info("Leave balances and festival dates are demo data. A request is printed only; nothing is submitted to an HR system.")
     st.caption("Type a request and press Enter to use the Ollama model selected in the sidebar, or run the fixed offline example.")
@@ -109,3 +112,21 @@ def render():
     })
     del st.session_state.day11_runs[:-MAX_RUNS_SHOWN]
     st.rerun()
+
+
+def render():
+    enterprise_tab, leave_tab = st.tabs(["Day 10 tools agent", "Leave demo for Day 12"])
+    with enterprise_tab:
+        st.caption("A bounded agent uses Day 10's two validated tools. These deterministic examples use mock policy data.")
+        demo = st.selectbox("Challenge case", ["direct", "two-tools"], key="day11_enterprise_demo")
+        if st.button("Run enterprise agent", key="day11_enterprise_run"):
+            try:
+                completed = subprocess.run(
+                    [sys.executable, str(DAY_DIRS[11] / "enterprise_agent.py"), "--demo", demo],
+                    capture_output=True, text=True, timeout=30, check=True,
+                )
+                st.json(json.loads(completed.stdout))
+            except (subprocess.CalledProcessError, OSError, ValueError, subprocess.TimeoutExpired) as exc:
+                st.error(f"The challenge demo could not run: {type(exc).__name__}: {exc}")
+    with leave_tab:
+        _render_leave()

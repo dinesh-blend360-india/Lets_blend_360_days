@@ -68,7 +68,7 @@ Select an installed model with native tool-call support. If none is installed, c
 Verify the Day 06 index used by Day 07:
 
 ```powershell
-Get-ChildItem ..\6_embedding_and_retrival\outputs\embeddings\employee_policy_md_structure
+Get-ChildItem ..\06_embedding_and_retrieval\outputs\embeddings\employee_policy_md_structure
 ```
 
 It should contain `manifest.json`, `metadata.json`, and `vectors.npz`.

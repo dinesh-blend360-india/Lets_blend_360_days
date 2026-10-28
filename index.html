@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Learning Path: AI Engineering, Data Engineering, Data Science</title>
-<!-- Firebase setup: 1) console.firebase.google.com: create a project, add a Web app, paste its config into FB near the bottom of this file. 2) Build > Firestore Database > create. 3) Rules: allow read, write on /lp_resources/{doc}. Add Firebase Auth before sharing the URL publicly. -->
+<!-- Optional sync: configure Firebase Web app, enable Google sign-in in Firebase Authentication, and publish the owner-only firestore.rules in this repository. Revoke any old public rule for lp_resources. -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=IBM+Plex+Sans:wght@400;500&display=swap">
 <style>
 :root{--bg:#f3f6f8;--card:#fff;--ink:#14213d;--mut:#5b6678;--line:#d9e0e7;--acc:#0f7f82;--accbg:#dff3f3;--dsa:#fff1d6;--dsal:#e09a1f;--dsai:#6b4500;--bld:#e3f4ea;--bldl:#2e8b57;--bldi:#14532d;--err:#b42318;
@@ -68,6 +68,7 @@ h2{font-size:22px}
 @media (max-width:520px){.trail{padding-left:40px}.node{left:-40px;width:32px;height:32px}.trail:before{left:15px}}
 @media (prefers-reduced-motion:reduce){.bar i{transition:none}}
 .note{font-size:14px;color:var(--mut);margin:10px 0 0}
+.auth{margin:10px 0}.auth button{font:inherit;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);padding:7px 12px;cursor:pointer}
 .tp{border-top:1px solid var(--line)}
 .tp summary{cursor:pointer;padding:10px 0;font-weight:500;list-style:none;display:flex;justify-content:space-between;gap:10px;align-items:center}
 .tp summary::-webkit-details-marker{display:none}
@@ -87,6 +88,7 @@ h2{font-size:22px}
 <div class="tabs" role="tablist" id="tabs"></div>
 <div id="intro"></div>
 <p class="note" id="note"></p>
+<div class="auth" id="auth"></div>
 <div class="trail" id="trail"></div>
 <p class="foot">Links you add to a stage appear in every track that includes that stage. Where they are stored is shown in the note under the track description.</p>
 </div>
@@ -158,11 +160,14 @@ da:{n:"Data analysis",i:["You will turn raw data into answers: clean it, analyze
 var FB={apiKey:"YOUR_API_KEY",authDomain:"YOUR_PROJECT_ID.firebaseapp.com",projectId:"YOUR_PROJECT_ID",appId:"YOUR_APP_ID"};
 function ld(k,f){try{var v=localStorage.getItem(k);return v?JSON.parse(v):f}catch(e){return f}}
 function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
-var res=ld("lp_res",{}),cur=ld("lp_track","ai"),op={},cloud=null,note="Links are saved in this browser only. Add your Firebase config in the page to sync them everywhere.";
+var localRes=ld("lp_res",{}),res=localRes,cur=ld("lp_track","ai"),op={},cloud=null,note="Links are saved in this browser only. Add your Firebase config to enable private sync.";
+if(!localRes||typeof localRes!=="object"||Array.isArray(localRes)){localRes={};res=localRes}
 if(!T[cur])cur="ai";
 function h(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!==undefined)e.textContent=x;return e}
+function safeUrl(raw){try{var u=new URL(raw);return u.protocol==="https:"||u.protocol==="http:"?u.href:null}catch(e){return null}}
+function safeItems(items){return Array.isArray(items)?items.filter(function(it){return it&&typeof it==="object"&&typeof it.u==="string"&&safeUrl(it.u)}).map(function(it){return {t:typeof it.t==="string"?it.t:"",u:safeUrl(it.u)}}):[]}
 var SEED={"setup":["Git and GitHub (your pick)|https://www.youtube.com/watch?v=mAFoROnOfHs|YouTube","Pro Git book|https://git-scm.com/book/en/v2|Book","GitHub Docs: Get started|https://docs.github.com/en/get-started|Docs","The Missing Semester (terminal, Git, tools)|https://missing.csail.mit.edu/|Course"],"py":["Python tutorial (your pick)|https://www.youtube.com/watch?v=WGJJIrtnfpk|YouTube","W3Schools Python tutorial|https://www.w3schools.com/python/default.asp|W3Schools","Official Python tutorial|https://docs.python.org/3/tutorial/|Docs","GeeksforGeeks Python tutorial|https://www.geeksforgeeks.org/python-programming-language-tutorial/|GeeksforGeeks","Exercism Python track (practice)|https://exercism.org/tracks/python|Practice","NeetCode roadmap (DSA order)|https://neetcode.io/roadmap|DSA","GeeksforGeeks DSA tutorial|https://www.geeksforgeeks.org/learn-data-structures-and-algorithms-dsa-tutorial/|DSA"],"pyd":["Pandas 1 (your pick)|https://www.youtube.com/watch?v=vtgDGrUiUKk|YouTube","Pandas 2 (your pick)|https://www.youtube.com/watch?v=gtjxAH8uaP0|YouTube","10 minutes to pandas|https://pandas.pydata.org/docs/user_guide/10min.html|Docs","NumPy absolute beginners guide|https://numpy.org/doc/stable/user/absolute_beginners.html|Docs","W3Schools Pandas tutorial|https://www.w3schools.com/python/pandas/default.asp|W3Schools","Kaggle Learn: Pandas|https://www.kaggle.com/learn/pandas|Course","Matplotlib tutorials|https://matplotlib.org/stable/tutorials/index.html|Docs"],"sql1":["SQL (your pick)|https://www.youtube.com/watch?v=5OdVJbNCSso|YouTube","W3Schools SQL tutorial|https://www.w3schools.com/sql/default.asp|W3Schools","SQLBolt interactive lessons|https://sqlbolt.com/|Practice","PostgreSQL official tutorial|https://www.postgresql.org/docs/current/tutorial.html|Docs","GeeksforGeeks SQL tutorial|https://www.geeksforgeeks.org/sql-tutorial/|GeeksforGeeks","HackerRank SQL practice|https://www.hackerrank.com/domains/sql|Practice"],"sql2":["SQL (your pick)|https://www.youtube.com/watch?v=5OdVJbNCSso|YouTube","LeetCode SQL 50 study plan|https://leetcode.com/studyplan/top-sql-50/|Practice","Mode SQL tutorial (advanced and window functions)|https://mode.com/sql-tutorial/|Course","PostgreSQL window functions|https://www.postgresql.org/docs/current/tutorial-window.html|Docs","Use The Index, Luke (indexes)|https://use-the-index-luke.com/|Book","DataLemur SQL interview questions|https://datalemur.com/|Practice"],"math":["Khan Academy: Statistics and probability|https://www.khanacademy.org/math/statistics-probability|Course","3Blue1Brown: Essence of linear algebra|https://www.3blue1brown.com/topics/linear-algebra|Video","StatQuest|https://statquest.org/|Video","Seeing Theory (visual probability)|https://seeing-theory.brown.edu/|Interactive"],"dsw":["Kaggle Learn: Data cleaning|https://www.kaggle.com/learn/data-cleaning|Course","Kaggle Learn: Feature engineering|https://www.kaggle.com/learn/feature-engineering|Course","Kaggle Learn: Data visualization|https://www.kaggle.com/learn/data-visualization|Course","Streamlit docs|https://docs.streamlit.io/|Docs"],"ml":["AI/ML full course (your pick)|https://www.youtube.com/live/hhGPiDrUe1c|YouTube","scikit-learn user guide|https://scikit-learn.org/stable/user_guide.html|Docs","Andrew Ng: Machine Learning Specialization|https://www.coursera.org/specializations/machine-learning-introduction|Course","Kaggle Learn: Intro to machine learning|https://www.kaggle.com/learn/intro-to-machine-learning|Course","GeeksforGeeks machine learning|https://www.geeksforgeeks.org/machine-learning/|GeeksforGeeks","StatQuest|https://statquest.org/|Video"],"dl":["PyTorch tutorials|https://pytorch.org/tutorials/|Docs","Karpathy: Neural Networks, Zero to Hero|https://karpathy.ai/zero-to-hero.html|Video","3Blue1Brown: Neural networks|https://www.3blue1brown.com/topics/neural-networks|Video","Hugging Face LLM course|https://huggingface.co/learn/llm-course|Course","fast.ai Practical Deep Learning|https://course.fast.ai/|Course"],"llm":["GenAI (your pick)|https://www.youtube.com/watch?v=F0GQ0l2NfHA|YouTube","LLMs from scratch (your pick)|https://www.youtube.com/watch?v=p3sij8QzONQ|YouTube","Prompt Engineering Guide|https://www.promptingguide.ai/|Guide","Anthropic prompt engineering docs|https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview|Docs","DeepLearning.AI short courses|https://www.deeplearning.ai/short-courses/|Course"],"rag":["Complete RAG tutorial (your pick)|https://www.youtube.com/watch?v=sVcwVQRHIc8|YouTube","RAG fundamentals (your pick)|https://www.youtube.com/watch?v=swvzKSOEluc|YouTube","LangChain (your pick)|https://www.youtube.com/watch?v=lG7Uxts9SXs|YouTube","Qdrant documentation|https://qdrant.tech/documentation/|Docs","LangChain docs|https://docs.langchain.com/|Docs","Pinecone: Retrieval augmented generation|https://www.pinecone.io/learn/retrieval-augmented-generation/|Guide"],"agents":["LangGraph (your pick)|https://www.youtube.com/watch?v=jGg_1h0qzaM|YouTube","LangGraph docs|https://langchain-ai.github.io/langgraph/|Docs","Anthropic: Building effective agents|https://www.anthropic.com/engineering/building-effective-agents|Guide","Model Context Protocol|https://modelcontextprotocol.io/|Docs","Ragas (RAG evaluation) docs|https://docs.ragas.io/|Docs","Hugging Face PEFT (LoRA)|https://huggingface.co/docs/peft|Docs"],"deploy":["FastAPI tutorial|https://fastapi.tiangolo.com/tutorial/|Docs","Docker: Get started|https://docs.docker.com/get-started/|Docs","MLflow docs|https://mlflow.org/docs/latest/|Docs","GitHub Actions docs|https://docs.github.com/en/actions|Docs","Made With ML|https://madewithml.com/|Course"],"de":["PySpark 1 (your pick)|https://www.youtube.com/watch?v=_C8kWso4ne4|YouTube","PySpark 2 (your pick)|https://www.youtube.com/watch?v=94w6hPk7nkM|YouTube","PySpark getting started|https://spark.apache.org/docs/latest/api/python/getting_started/index.html|Docs","Airflow tutorial|https://airflow.apache.org/docs/apache-airflow/stable/tutorial/index.html|Docs","dbt introduction|https://docs.getdbt.com/docs/introduction|Docs","Data Engineering Zoomcamp (free)|https://github.com/DataTalksClub/data-engineering-zoomcamp|Course","Apache Kafka introduction|https://kafka.apache.org/intro|Docs"],"excel":["Microsoft Excel help and training|https://support.microsoft.com/en-us/excel|Docs","W3Schools Excel tutorial|https://www.w3schools.com/excel/index.php|W3Schools"],"ana":["Google Data Analytics Certificate|https://www.coursera.org/professional-certificates/google-data-analytics|Course","Kaggle datasets (for case studies)|https://www.kaggle.com/datasets|Data","Storytelling with Data blog|https://www.storytellingwithdata.com/|Guide"],"pbi":["Microsoft Learn: Power BI|https://learn.microsoft.com/en-us/power-bi/|Docs","DAX Guide|https://dax.guide/|Reference","SQLBI articles and videos|https://www.sqlbi.com/|Guide"],"tab":["Tableau free training videos|https://www.tableau.com/learn/training|Course","Tableau Public (publish your work)|https://public.tableau.com/|Tool"]};
-function save(id){sv("lp_res",res);if(cloud)cloud.f.setDoc(cloud.f.doc(cloud.db,"lp_resources",id),{items:res[id]||[]}).catch(function(e){note="Could not save to Firebase ("+(e.code||"error")+"). Saved in this browser only.";render()})}
+function save(id){if(cloud){if(!cloud.ready)return;cloud.f.setDoc(cloud.f.doc(cloud.db,"lp_users",cloud.uid,"resources",id),{items:res[id]||[]}).catch(function(e){note="Could not sync this change ("+(e.code||"error")+"). It is visible only in this session.";render()})}else{localRes=res;sv("lp_res",res)}}
 function render(){
  var tabs=document.getElementById("tabs");tabs.textContent="";
  Object.keys(T).forEach(function(k){var b=h("button","tab",T[k].n);b.setAttribute("role","tab");b.setAttribute("aria-selected",k===cur);b.onclick=function(){cur=k;sv("lp_track",k);render()};tabs.appendChild(b)});
@@ -189,33 +194,46 @@ function render(){
   var r=h("div","res");var rc=SEED[id]||[];
   if(rc.length){r.appendChild(h("h3","","Recommended resources"));var ru=h("ul");rc.forEach(function(q){var x=q.split("|"),li=h("li"),a=h("a","",x[0]);a.href=x[1];a.target="_blank";a.rel="noopener noreferrer";li.appendChild(a);li.appendChild(h("span","chip",x[2]));ru.appendChild(li)});r.appendChild(ru)}
   r.appendChild(h("h3","","My added links"));
-  var rl=h("ul"),arr=res[id]||[];
+  var rl=h("ul"),arr=safeItems(res[id]);
   if(!arr.length)r.appendChild(h("p","none","No links yet. Add the course, video or doc you chose."));
   arr.forEach(function(it,k){
    var li=h("li"),a=h("a","",it.t||it.u);a.href=it.u;a.target="_blank";a.rel="noopener noreferrer";
-   var x=h("button","x","Remove");x.setAttribute("aria-label","Remove "+(it.t||it.u));
+   var x=h("button","x","Remove");x.disabled=!!(cloud&&!cloud.ready);x.setAttribute("aria-label","Remove "+(it.t||it.u));
    x.onclick=function(){arr.splice(k,1);res[id]=arr;save(id);render()};
    li.appendChild(a);li.appendChild(x);rl.appendChild(li)});
   r.appendChild(rl);
   var f=h("div","add"),ti=h("input"),ui=h("input","u"),ab=h("button","","Add link"),ms=h("p","msg");
   ti.placeholder="Title (optional)";ti.setAttribute("aria-label","Resource title");
   ui.placeholder="Paste link, https://...";ui.setAttribute("aria-label","Resource link");
-  function go(){var u=ui.value.trim();if(u&&!/^https?:\/\//i.test(u))u="https://"+u;
-   try{var o=new URL(u);if(o.protocol!=="http:"&&o.protocol!=="https:")throw 0}catch(e){ms.textContent="Enter a valid web link, for example https://youtube.com/...";return}
-   (res[id]=res[id]||[]).push({t:ti.value.trim(),u:u});save(id);render()}
+  function go(){if(cloud&&!cloud.ready)return;var u=ui.value.trim();if(u&&!/^https?:\/\//i.test(u))u="https://"+u;
+   u=safeUrl(u);if(!u){ms.textContent="Enter a valid web link, for example https://youtube.com/...";return}
+   (res[id]=safeItems(res[id])).push({t:ti.value.trim(),u:u});save(id);render()}
+  ab.disabled=!!(cloud&&!cloud.ready);
   ab.onclick=go;ui.onkeydown=ti.onkeydown=function(e){if(e.key==="Enter")go()};
   f.appendChild(ti);f.appendChild(ui);f.appendChild(ab);r.appendChild(f);r.appendChild(ms);card.appendChild(r);
   st.appendChild(n);st.appendChild(card);trail.appendChild(st)});
 }
 render();
-if(FB.projectId.indexOf("YOUR")!==0){
+if(FB.projectId.indexOf("YOUR")!==0&&FB.apiKey.indexOf("YOUR")!==0){
  try{
   var A=await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
   var F=await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
-  var db=F.getFirestore(A.initializeApp(FB));
-  cloud={f:F,db:db};
-  note="Links sync through Firebase, so they show up on every device.";
-  F.onSnapshot(F.collection(db,"lp_resources"),function(s){var r={};s.forEach(function(d){r[d.id]=d.data().items||[]});res=r;sv("lp_res",res);render()},function(e){cloud=null;note="Firebase error ("+(e.code||"unknown")+"). Check your Firestore rules. Links are saved in this browser only.";render()});
+  var Auth=await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js");
+  var app=A.initializeApp(FB),db=F.getFirestore(app),auth=Auth.getAuth(app),unsubscribe=null;
+  var authButton=h("button","","Sign in with Google");document.getElementById("auth").appendChild(authButton);
+  authButton.onclick=async function(){try{if(auth.currentUser)await Auth.signOut(auth);else await Auth.signInWithPopup(auth,new Auth.GoogleAuthProvider())}catch(e){note="Sign-in failed ("+(e.code||"error")+"). Browser links are still available.";render()}};
+  Auth.onAuthStateChanged(auth,function(user){
+   if(unsubscribe){unsubscribe();unsubscribe=null}
+   cloud=null;
+   if(!user){res=localRes;authButton.textContent="Sign in with Google";note="Links are saved in this browser only. Sign in to see your private synced links.";render();return}
+   res={};cloud={f:F,db:db,uid:user.uid,ready:false};authButton.textContent="Sign out";
+   note="Loading private links for "+(user.email||"this account")+"...";render();
+   unsubscribe=F.onSnapshot(F.collection(db,"lp_users",user.uid,"resources"),function(s){
+    if(!cloud||cloud.uid!==user.uid)return;
+    var r={};s.forEach(function(d){r[d.id]=safeItems(d.data().items)});res=r;cloud.ready=true;
+    note="Private links sync for "+(user.email||"this account")+". Browser-only links remain separate.";render()
+   },function(e){cloud=null;res=localRes;note="Firebase error ("+(e.code||"unknown")+"). Browser links are still available. Check your Firestore rules.";render()});
+  });
   render();
  }catch(e){note="Could not load Firebase. Links are saved in this browser only.";render()}
 }

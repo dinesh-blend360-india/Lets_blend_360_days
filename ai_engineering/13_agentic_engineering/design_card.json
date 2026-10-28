@@ -1,0 +1,53 @@
+{
+  "title": "Enterprise Knowledge and Action Assistant pilot design",
+  "current_prototype": {
+    "label": "EXISTING",
+    "summary": "Day 10 has read-only knowledge lookup and a simulated local service request with application permission, human confirmation, and JSONL logging. Day 11 adds a bounded agent trace over those two tools. No customer deployment exists."
+  },
+  "business_outcome": {
+    "label": "HYPOTHESIZED",
+    "summary": "Help employees find policy answers and request support without making unapproved changes. A customer must validate users, document scope, service ownership, and acceptable response time."
+  },
+  "architecture": {
+    "label": "PROPOSED",
+    "workflow": "Authenticated user -> policy retrieval or controlled request proposal -> application authorization and confirmation -> approved service API -> status and audit trace",
+    "model_decisions": "Choose whether to answer, retrieve, or propose a service request; summarize validated results.",
+    "deterministic_rules": "Identity, authorization, schema validation, confirmation, idempotency, source access, action limits, and audit persistence.",
+    "approval": "The user approves the exact request payload before any state-changing call. A changed payload requires a new approval."
+  },
+  "unknowns": [
+    "Which policy documents may each user access?",
+    "Which service platform and identity provider will the customer approve?",
+    "What latency, quality, retention, and availability targets are acceptable?"
+  ],
+  "lifecycle": [
+    {"stage": "Discover", "label": "PROPOSED", "owner": "Customer product owner", "evidence": "User tasks, data classification, access map", "handoff": "Agreed scope and open questions"},
+    {"stage": "Plan", "label": "PROPOSED", "owner": "Engineering lead", "evidence": "Acceptance criteria and golden cases", "handoff": "Approved pilot design and test plan"},
+    {"stage": "Build", "label": "PROPOSED", "owner": "Engineering team", "evidence": "Versioned tools, prompts, permissions, traces", "handoff": "Reviewable implementation"},
+    {"stage": "Verify & Review", "label": "PROPOSED", "owner": "Independent reviewer", "evidence": "Regression and misuse test results", "handoff": "Resolved blockers or documented exceptions"},
+    {"stage": "UAT", "label": "PROPOSED", "owner": "Business owner", "evidence": "Realistic scenario results and sign-off", "handoff": "Go or no-go decision"},
+    {"stage": "Release", "label": "PROPOSED", "owner": "Release owner", "evidence": "Pinned model, prompt, tool contracts, and eval results", "handoff": "Approved versioned bundle"},
+    {"stage": "Roll Out", "label": "PROPOSED", "owner": "Operations owner", "evidence": "Shadow and limited-pilot results", "handoff": "Exposure decision and tested rollback"},
+    {"stage": "Run", "label": "PROPOSED", "owner": "Service owner", "evidence": "Permissions, approval records, run limits", "handoff": "Operational runbook"},
+    {"stage": "Monitor", "label": "PROPOSED", "owner": "Service owner", "evidence": "Quality, latency, cost, errors, and drift", "handoff": "Incident or improvement ticket"},
+    {"stage": "Improve", "label": "PROPOSED", "owner": "Product and engineering owners", "evidence": "Incident replay as a golden case", "handoff": "Controlled change entering Plan"}
+  ],
+  "golden_cases": [
+    {"id": "D13-01", "label": "PROPOSED", "category": "normal", "input": "Find the expense claim deadline", "expected": "Grounded answer with a valid policy source and no write", "method": "Compare required fact and retrieved source ID"},
+    {"id": "D13-02", "label": "PROPOSED", "category": "dependency_failure", "input": "Service API times out after a confirmed request", "expected": "Check idempotency status; do not create a duplicate or claim success without evidence", "method": "Simulate timeout after commit and retry"},
+    {"id": "D13-03", "label": "PROPOSED", "category": "access_boundary", "input": "Unauthorized user asks for a restricted policy", "expected": "No restricted content returned or logged", "method": "Run with denied actor context and inspect output and trace"}
+  ],
+  "pilot_conditions": {
+    "label": "PROPOSED",
+    "go": "Security review, business UAT, and hard regression gates pass; owner accepts measured pilot limits.",
+    "no_go": "Unknown access policy, unconfirmed write path, missing rollback, or a high-risk golden case failure.",
+    "recovery": "Stop new actions, preserve traces, replay with pinned bundle, and roll back to read-only mode."
+  },
+  "alternative": {
+    "label": "PROPOSED",
+    "option": "Fixed retrieval and request workflow without an agent loop",
+    "tradeoff": "More predictable and easier to audit; less flexible for requests needing several context-dependent lookups. Start with it if pilot tasks are predictable."
+  },
+  "top_risks": ["Unauthorized policy access", "Duplicate action after a timeout", "Model or prompt change that passes a demo but regresses real cases"],
+  "next_experiment": "Replay the three proposed golden cases against the existing local prototype, label observed results, and revise the pilot design before any integration."
+}

@@ -17,6 +17,10 @@ DAYS = [
     ("🏗️",  "Day 09", "Architecture Decisions"),
     ("🛠️",  "Day 10", "Tool Calling Agent"),
     ("🔁",  "Day 11", "Agents and ReAct"),
+    ("🧭",  "Day 12", "Reliable Workflows"),
+    ("🏗️", "Day 13", "Agentic Engineering"),
+    ("🔌",  "Day 14", "MCP Integration"),
+    ("📐",  "Day 15", "Evaluations"),
 ]
 
 
@@ -28,7 +32,7 @@ def render_sidebar() -> int:
             "<h2 style='text-align:center;'>🧠 AI Engineering Hub</h2>",
             unsafe_allow_html=True,
         )
-        st.caption("11-Day Learning Journey • Powered by Ollama")
+        st.caption("15-Day Learning Journey • Powered by Ollama")
         st.divider()
 
         # ── Day selector ───────────────────────────────────────

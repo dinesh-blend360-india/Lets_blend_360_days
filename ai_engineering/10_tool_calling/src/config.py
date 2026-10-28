@@ -49,7 +49,7 @@ class AppConfig:
             model_timeout_seconds=float(os.getenv("OLLAMA_TIMEOUT_SECONDS", "60")),
             max_tool_rounds=int(os.getenv("MAX_TOOL_ROUNDS", "3")),
             knowledge_backend=os.getenv("KNOWLEDGE_BACKEND", "day07").lower(),
-            day07_project_dir=_path("DAY07_PROJECT_DIR", AI_ENGINEERING_DIR / "7_rag"),
+            day07_project_dir=_path("DAY07_PROJECT_DIR", AI_ENGINEERING_DIR / "07_rag"),
             day06_index_dir=_path("DAY06_INDEX_DIR", AI_ENGINEERING_DIR / "06_embedding_and_retrieval" / "outputs" / "embeddings" / "employee_policy_md_structure"),
             mock_knowledge_file=_path("MOCK_KNOWLEDGE_FILE", PROJECT_DIR / "data" / "mock_knowledge.json"),
             actions_dir=_path("SERVICE_REQUEST_DIR", PROJECT_DIR / "outputs" / "actions"),
