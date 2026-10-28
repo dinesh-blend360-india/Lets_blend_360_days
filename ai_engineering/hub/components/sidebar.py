@@ -72,7 +72,7 @@ def render_sidebar() -> int:
             st.caption("Start Ollama and refresh the page.")
 
         # ── Clear chat button ──────────────────────────────────
-        if st.button("🗑️ Clear Chat History", use_container_width=True):
+        if st.button("🗑️ Clear Chat History", width="stretch"):
             for key in list(st.session_state.keys()):
                 if key.startswith("day"):
                     del st.session_state[key]

@@ -73,3 +73,12 @@ def test_unregistered_tool_never_executes(capsys):
     answer = agent.run_agent(QUESTION, model_client=model, today=TODAY)
     assert answer.startswith("No leave request was printed")
     assert "unknown or missing tool" in capsys.readouterr().out
+
+
+def test_balance_tool_rejects_guessed_employee_id(capsys):
+    model = FakeClient(
+        action("get_available_leave_balance", {"user_id": "E101"}),
+        "Thought: Done.\nFinal Answer: I checked the balance.",
+    )
+    agent.run_agent("What is the date of Pongal?", model_client=model, today=TODAY)
+    assert "Use only an employee ID stated in the request" in capsys.readouterr().out

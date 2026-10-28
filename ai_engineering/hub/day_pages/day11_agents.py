@@ -13,6 +13,7 @@ from config import DAY_DIRS, get_ollama_client
 
 
 SAMPLE_QUESTION = "My user ID is E103. Request leave for Pongal."
+MAX_RUNS_SHOWN = 20
 SAMPLE_STEPS = [
     'Thought: Find the named festival date.\nAction: get_festival_date\nAction Input: {"festival_name": "Pongal"}',
     'Thought: Check the employee balance.\nAction: get_available_leave_balance\nAction Input: {"user_id": "E103"}',
@@ -44,35 +45,67 @@ def _load_agent():
 def render():
     st.caption("See how a model proposes one action, receives its observation, and repeats.")
     st.info("Leave balances and festival dates are demo data. A request is printed only; nothing is submitted to an HR system.")
+    st.caption("Type a request and press Enter to use the Ollama model selected in the sidebar, or run the fixed offline example.")
 
-    scripted = st.checkbox("Use scripted walkthrough (no Ollama)", value=True, key="day11_scripted")
-    if scripted:
-        st.caption("The walkthrough uses fixed responses and assumes 2026-10-26 so the example date is in the future.")
-        st.code(SAMPLE_QUESTION)
-        question = SAMPLE_QUESTION
-    else:
-        question = st.text_area("Request", value=SAMPLE_QUESTION, key="day11_question")
-
-    if st.button("Run agent", type="primary", key="day11_run"):
-        if not question.strip():
-            st.error("Enter a request.")
-            return
-        try:
-            agent = _load_agent()
-            trace = StringIO()
-            if scripted:
-                model_client = ScriptedClient()
-                run_date = date(2026, 10, 26)
-                model_name = "scripted walkthrough"
+    if "day11_runs" not in st.session_state:
+        st.session_state.day11_runs = []
+    for run in st.session_state.day11_runs:
+        with st.chat_message("user"):
+            st.markdown(run["question"])
+        with st.chat_message("assistant"):
+            if run["error"]:
+                st.error(run["answer"])
             else:
-                host = st.session_state.get("ollama_host")
-                model_name = st.session_state.get("ollama_model")
-                model_client = get_ollama_client(host)
-                run_date = date.today()
-            with redirect_stdout(trace):
-                answer = agent.run_agent(question, model_client=model_client, model=model_name, today=run_date)
-            st.success(answer)
-            with st.expander("Thought, action, and observation trace", expanded=True):
-                st.code(trace.getvalue(), language="text")
-        except Exception as exc:
-            st.error(f"Agent could not finish: {exc}")
+                st.markdown(run["answer"])
+            if run["trace"]:
+                with st.expander("Thought, action, and observation trace"):
+                    st.code(run["trace"], language="text")
+            st.caption(run["mode"])
+
+    demo_clicked = st.button("Run scripted example (no Ollama)", key="day11_demo")
+    prompt = st.chat_input("Ask the leave agent…", key="day11_input")
+    if not demo_clicked and not prompt:
+        return
+
+    scripted = demo_clicked
+    question = SAMPLE_QUESTION if scripted else prompt.strip()
+    trace = StringIO()
+    error = False
+    model_name = "scripted walkthrough" if scripted else st.session_state.get("ollama_model", "unknown model")
+    status = st.status("Starting the agent…", expanded=True)
+    try:
+        agent = _load_agent()
+        if scripted:
+            model_client = ScriptedClient()
+            run_date = date(2026, 10, 26)
+        else:
+            host = st.session_state.get("ollama_host")
+            model_client = get_ollama_client(host)
+            run_date = date.today()
+        with redirect_stdout(trace):
+            answer = agent.run_agent(
+                question,
+                model_client=model_client,
+                model=model_name,
+                today=run_date,
+                on_event=status.write,
+            )
+        error = answer.startswith("Stopped after ")
+        status.update(
+            label="Agent stopped before answering" if error else "Agent finished",
+            state="error" if error else "complete",
+        )
+    except Exception as exc:
+        error = True
+        answer = f"Agent could not finish: {exc}"
+        status.update(label="Agent stopped with an error", state="error")
+
+    st.session_state.day11_runs.append({
+        "question": question,
+        "answer": answer,
+        "trace": trace.getvalue(),
+        "mode": "Scripted example with fixed date 2026-10-26" if scripted else f"Live Ollama: {model_name}",
+        "error": error,
+    })
+    del st.session_state.day11_runs[:-MAX_RUNS_SHOWN]
+    st.rerun()

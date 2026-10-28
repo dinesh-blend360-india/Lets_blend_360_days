@@ -28,12 +28,9 @@ st.set_page_config(
 # ── Premium CSS ────────────────────────────────────────────────────────
 st.markdown("""
 <style>
-    /* Import Inter font */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-    /* Global font */
+    /* Global font: uses a locally installed font, with no external request */
     html, body, [class*="css"] {
-        font-family: 'Inter', sans-serif;
+        font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
     }
 
     /* Sidebar styling */
@@ -134,6 +131,7 @@ st.markdown("""
 
 # ── Sidebar ────────────────────────────────────────────────────────────
 from components.sidebar import render_sidebar, DAYS
+from config import SHOW_TRACEBACKS
 selected_day = render_sidebar()
 
 # ── Page header ────────────────────────────────────────────────────────
@@ -166,6 +164,9 @@ try:
     page_module.render()
 except Exception as exc:
     st.error(f"Failed to load page: {exc}")
-    with st.expander("Stack trace"):
-        import traceback
-        st.code(traceback.format_exc())
+    if SHOW_TRACEBACKS:
+        with st.expander("Stack trace"):
+            import traceback
+            st.code(traceback.format_exc())
+    else:
+        st.caption("Set HUB_SHOW_TRACEBACKS=1 to see the stack trace.")

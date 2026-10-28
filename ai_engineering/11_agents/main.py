@@ -17,7 +17,7 @@ import re
 import sys
 from datetime import date
 from json import JSONDecoder, JSONDecodeError
-from typing import Any
+from typing import Any, Callable
 
 MODEL = os.getenv("OLLAMA_MODEL", "qwen3:4b")
 OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://127.0.0.1:11434")
@@ -91,6 +91,8 @@ Rules:
 - Only create leave requests if the balance covers ALL requested future leave days.
 - If the balance is insufficient, do not create any requests; explain why.
 - Use the exact employee ID provided by the user. Never guess an ID.
+- If the user asks only for a festival date, look up that date and finish. Do not check a leave balance.
+- Check a leave balance only when the user supplied an employee ID.
 - Tool inputs must be valid JSON. Do not use Markdown fences.
 - Keep the Thought brief: state the next step, not a long explanation.
 
@@ -185,6 +187,7 @@ def run_agent(
     model_client: Any | None = None,
     model: str | None = None,
     today: date | None = None,
+    on_event: Callable[[str], None] | None = None,
 ) -> str:
     """Run the Thought -> Action -> Observation loop until a Final Answer."""
     if not question.strip():
@@ -209,13 +212,15 @@ def run_agent(
 
     for loop in range(1, MAX_LOOPS + 1):
         print(f"\n===== Loop {loop} =====")
+        if on_event:
+            on_event(f"Waiting for the model (step {loop}/{MAX_LOOPS})")
         response = model_client.chat(
             model=model or MODEL,
             messages=[{"role": "system", "content": system_message}, *messages],
             # Qwen3 can emit a separate reasoning channel by default. Disable it
             # here because this simple agent expects structured labels in content.
             think=False,
-            options={"num_predict": 500, "temperature": 0.0},
+            options={"num_predict": 180, "temperature": 0.0},
         )
         reply = response.message.content.strip()
         messages.append({"role": "assistant", "content": reply})
@@ -234,6 +239,8 @@ def run_agent(
                     detail = last_observation if last_observation.startswith("Error:") else "Check the dates and leave balance."
                     answer = f"No leave request was printed. {detail}"
             print(f"Final Answer: {answer}")
+            if on_event:
+                on_event("Finished")
             return answer
 
         # Never dispatch a missing/invalid tool name. Ask the model to retry in
@@ -265,6 +272,8 @@ def run_agent(
                     user_id = str(tool_input.get("user_id", "")).upper().strip()
                     if not user_id:
                         raise ValueError("Missing required field 'user_id'")
+                    if user_id not in mentioned_ids:
+                        raise ValueError("Use only an employee ID stated in the request")
                     observation = get_available_leave_balance(user_id)
                     try:
                         balance_result = json.loads(observation)
@@ -319,6 +328,8 @@ def run_agent(
                 observation = f"Error: {exc}"
 
         print(f"Observation:  {observation}")
+        if on_event:
+            on_event(f"{tool_name}: {observation}")
         last_observation = observation
         messages.append({"role": "user", "content": f"Observation: {observation}"})
 
@@ -331,10 +342,11 @@ def main() -> int:
         question = "My user ID is E103. Request leave for Pongal."
 
     try:
-        answer = run_agent(question)
-        print("\n----- Done -----")
-        return 0
-    except Exception as exc: 
+        run_agent(question)
+    except ValueError as exc:
+        print(f"Invalid request: {exc}", file=sys.stderr)
+        return 1
+    except Exception as exc:
         print(
             f"Could not reach Ollama model {MODEL!r} at {OLLAMA_HOST}.\n"
             f"Make sure Ollama is running and the model is installed:\n"
@@ -343,6 +355,8 @@ def main() -> int:
             file=sys.stderr,
         )
         return 1
+    print("\n----- Done -----")
+    return 0
 
 
 if __name__ == "__main__":
