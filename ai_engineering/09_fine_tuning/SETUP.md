@@ -5,7 +5,7 @@ All commands below use Windows PowerShell.
 ## 1. Open the project
 
 ```powershell
-Set-Location C:\workspace\IDC-on-boarding-training\Lets_blend_360_days\ai_engineering\9_fine_tuning
+Set-Location C:\workspace\IDC-on-boarding-training\Lets_blend_360_days\ai_engineering\09_fine_tuning
 ```
 
 ## 2. Check Python

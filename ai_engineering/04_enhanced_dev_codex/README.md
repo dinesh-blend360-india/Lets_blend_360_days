@@ -27,7 +27,7 @@ Install dependencies and launch the API:
 
 ```powershell
 .\venv\Scripts\python.exe -m pip install -r .\ai_engineering\requirements.txt
-.\venv\Scripts\python.exe -m uvicorn task_api.main:app --app-dir .\ai_engineering\4_enhanced_dev_codex --reload
+.\venv\Scripts\python.exe -m uvicorn task_api.main:app --app-dir .\ai_engineering\04_enhanced_dev_codex --reload
 ```
 
 The API runs at `http://127.0.0.1:8000`. Interactive API documentation is at
@@ -88,7 +88,7 @@ Writes commit on success and roll back on failure. PATCH performs its
 read/merge/write in one transaction to preserve omitted fields under concurrent
 updates. Startup creates the table if absent and preserves existing records.
 
-By default, SQLite stores tasks in `4_enhanced_dev_codex/data/tasks.db`, independently
+By default, SQLite stores tasks in `04_enhanced_dev_codex/data/tasks.db`, independently
 of the working directory. The directory is created on startup and ignored by Git.
 Tasks survive application and process restarts. In-memory SQLite loses its contents
 when the connection closes and is unsuitable for this persistence requirement.
@@ -97,7 +97,7 @@ this small local application.
 
 Optionally set `TASK_DB_PATH` in the process environment or the existing
 `ai_engineering/.env`; process environment takes precedence. Relative configured
-paths resolve against `4_enhanced_dev_codex`. An empty value uses the default path.
+paths resolve against `04_enhanced_dev_codex`. An empty value uses the default path.
 Existing unrelated `.env` settings are neither modified nor logged.
 
 ```powershell
@@ -107,7 +107,7 @@ $env:TASK_DB_PATH = 'data/custom-tasks.db'
 ## Tests
 
 ```powershell
-.\venv\Scripts\python.exe -m pytest .\ai_engineering\4_enhanced_dev_codex\tests -v
+.\venv\Scripts\python.exe -m pytest .\ai_engineering\04_enhanced_dev_codex\tests -v
 ```
 
 Tests use temporary file-backed databases, never the default user database.

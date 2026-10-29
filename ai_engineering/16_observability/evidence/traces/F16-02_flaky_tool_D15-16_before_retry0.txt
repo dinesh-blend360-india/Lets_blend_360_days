@@ -1,0 +1,27 @@
+F16-02 before the fix on D15-16 (hinglish_variant): transient tool failure, source_citation fails.
+
+assistant_request            chain           51.5 ms
+  llm_call (1)                 llm             0.02 ms
+  lookup_internal_knowledge    tool           50.52 ms  ERROR
+  llm_call (2)                 llm             0.02 ms
+
+summary: {
+  "trace_id": "27b06f634cd24b1b99cdfda89b20dca1",
+  "backend": "local",
+  "step_count": 4,
+  "total_ms": 51.5,
+  "ms_by_run_type": {
+    "llm": 0.04,
+    "tool": 50.52
+  },
+  "slowest_step": {
+    "name": "lookup_internal_knowledge",
+    "ms": 50.52
+  },
+  "error_steps": [
+    {
+      "name": "lookup_internal_knowledge",
+      "error": "{\"code\": \"TOOL_TIMEOUT\", \"message\": \"Attempt 1 timed out\"}"
+    }
+  ]
+}

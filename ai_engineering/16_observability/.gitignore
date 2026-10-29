@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.env
+
+# Working traces from local runs. Committed trace evidence lives in evidence/.
+outputs/traces/

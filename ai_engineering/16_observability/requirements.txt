@@ -1,0 +1,7 @@
+# Day 16 minimal subset. The shared ai_engineering/requirements.txt already
+# covers everything here; use this file only to run Day 16 in isolation.
+
+# Tracing works without LangSmith (local JSONL backend). Install langsmith only
+# if you want traces pushed to a LangSmith project.
+langsmith==0.14.14
+pytest==9.1.1

@@ -161,6 +161,7 @@ PAGE_MODULES = [
     "day_pages.day13_agentic_engineering",
     "day_pages.day14_mcp",
     "day_pages.day15_evaluations",
+    "day_pages.day16_observability",
 ]
 
 try:

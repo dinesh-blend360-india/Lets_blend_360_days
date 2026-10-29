@@ -14,18 +14,17 @@ LLM, call an external embedding API, or use a production vector database.
 
 Detailed documentation:
 
-- [`6_embedding_and_retrival/README.md`](6_embedding_and_retrival/README.md)
-- [`6_embedding_and_retrival/SETUP.md`](6_embedding_and_retrival/SETUP.md)
+- [`06_embedding_and_retrieval/README.md`](06_embedding_and_retrieval/README.md)
+- [`06_embedding_and_retrieval/SETUP.md`](06_embedding_and_retrieval/SETUP.md)
 
 ## 2. Project location and structure
 
-The folder name is intentionally `retrival`, matching the existing project
-requirement:
+The day folders use zero-padded names (`06_embedding_and_retrieval`):
 
 ```text
 ai_engineering/
-├── 5_document_chunking/
-├── 6_embedding_and_retrival/
+├── 05_document_chunking/
+├── 06_embedding_and_retrieval/
 │   ├── src/
 │   │   ├── embeddings/
 │   │   ├── retrieval/
@@ -42,7 +41,7 @@ ai_engineering/
 Day 06 reads the existing files in:
 
 ```text
-ai_engineering/5_document_chunking/outputs/
+ai_engineering/05_document_chunking/outputs/
 ```
 
 It does not copy or modify the Day 05 documents or chunked JSON files.
@@ -82,7 +81,7 @@ python -m venv --upgrade venv
 Move into the Day 06 folder and run the tests with the shared interpreter:
 
 ```powershell
-cd .\ai_engineering\6_embedding_and_retrival
+cd .\ai_engineering\06_embedding_and_retrieval
 ..\..\venv\Scripts\python.exe -m pytest .\tests -q
 ```
 
@@ -95,7 +94,7 @@ Start with the real Day 05 Markdown output:
 
 ```powershell
 $python = "..\..\venv\Scripts\python.exe"
-$day05 = "..\5_document_chunking\outputs\employee_policy_md_chunked.json"
+$day05 = "..\05_document_chunking\outputs\employee_policy_md_chunked.json"
 $index = ".\outputs\embeddings\employee_policy_md_structure"
 
 & $python -m src.embeddings.build_embeddings $day05 --index-dir $index
@@ -128,7 +127,7 @@ $day05Files = @(
 foreach ($file in $day05Files) {
   $name = [IO.Path]::GetFileNameWithoutExtension($file)
   & $python -m src.embeddings.build_embeddings `
-    "..\5_document_chunking\outputs\$file" `
+    "..\05_document_chunking\outputs\$file" `
     --index-dir ".\outputs\embeddings\$name"
 }
 ```
@@ -183,7 +182,7 @@ Press Enter on an empty query to exit interactive mode.
 The editable query file is:
 
 ```text
-6_embedding_and_retrival/test_inputs/retrieval_queries.json
+06_embedding_and_retrieval/test_inputs/retrieval_queries.json
 ```
 
 Run evaluation:
@@ -214,17 +213,17 @@ If the Day 05 character baseline does not exist, generate it first:
 
 ```powershell
 $python = "..\..\venv\Scripts\python.exe"
-& $python ..\5_document_chunking\parse-and-chunk.py `
-  ..\5_document_chunking\Day5_document_Chunking_Samples\employee_policy_markdown_sample.md `
+& $python ..\05_document_chunking\parse-and-chunk.py `
+  ..\05_document_chunking\samples\employee_policy_markdown_sample.md `
   --method character `
-  --output ..\5_document_chunking\outputs\employee_policy_md_character_chunked.json
+  --output ..\05_document_chunking\outputs\employee_policy_md_character_chunked.json
 ```
 
 Build the separate character index:
 
 ```powershell
 & $python -m src.embeddings.build_embeddings `
-  ..\5_document_chunking\outputs\employee_policy_md_character_chunked.json `
+  ..\05_document_chunking\outputs\employee_policy_md_character_chunked.json `
   --index-dir .\outputs\embeddings\employee_policy_md_character
 ```
 

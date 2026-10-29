@@ -27,11 +27,11 @@ Lets_blend_360_days/
 ├── ai_engineering/
 │   ├── requirements.txt
 │   ├── day setup guide.md
-│   ├── 1_simple_genAI/
-│   ├── 2_with_context_level/
-│   ├── 3_structured_output/
-│   ├── 4_enhanced_dev_codex/
-│   └── 5_document_chunking/
+│   ├── 01_simple_genAI/
+│   ├── 02_with_context_level/
+│   ├── 03_structured_output/
+│   ├── 04_enhanced_dev_codex/
+│   └── 05_document_chunking/
 └── venv/                         # Local, normally ignored by Git
 ```
 
@@ -58,18 +58,18 @@ an existing environment whose configured Python executable is missing.
 
 For the API day, an agent must read these files before operating the app:
 
-- [`4_enhanced_dev_codex/SETUP.md`](4_enhanced_dev_codex/SETUP.md) — complete
+- [`04_enhanced_dev_codex/SETUP.md`](04_enhanced_dev_codex/SETUP.md) — complete
   setup, run, testing, folder-only, and macOS/Linux instructions.
-- [`4_enhanced_dev_codex/README.md`](4_enhanced_dev_codex/README.md) — API
+- [`04_enhanced_dev_codex/README.md`](04_enhanced_dev_codex/README.md) — API
   contract, storage behavior, and endpoint examples.
-- [`4_enhanced_dev_codex/run.bat`](4_enhanced_dev_codex/run.bat) — Windows
+- [`04_enhanced_dev_codex/run.bat`](04_enhanced_dev_codex/run.bat) — Windows
   automation that creates or repairs the shared environment, installs
   dependencies, and starts Uvicorn.
 
 When working from the API folder, use the launcher:
 
 ```powershell
-Set-Location .\ai_engineering\4_enhanced_dev_codex
+Set-Location .\ai_engineering\04_enhanced_dev_codex
 .\run.bat --check
 .\run.bat
 ```
@@ -79,11 +79,11 @@ Use `.\run.bat 8001` if port 8000 is busy. Open
 root:
 
 ```powershell
-.\venv\Scripts\python.exe -m pytest .\ai_engineering\4_enhanced_dev_codex\tests -v
+.\venv\Scripts\python.exe -m pytest .\ai_engineering\04_enhanced_dev_codex\tests -v
 ```
 
 The API stores its default SQLite database under
-`ai_engineering/4_enhanced_dev_codex/data/`. That runtime data is ignored by
+`ai_engineering/04_enhanced_dev_codex/data/`. That runtime data is ignored by
 Git and should not be deleted as part of ordinary setup.
 
 ## macOS/Linux setup
@@ -96,13 +96,13 @@ cd Lets_blend_360_days
 python3 -m venv venv
 ./venv/bin/python -m pip install -r ./ai_engineering/requirements.txt
 ./venv/bin/python -m uvicorn task_api.main:app \
-  --app-dir ./ai_engineering/4_enhanced_dev_codex --reload
+  --app-dir ./ai_engineering/04_enhanced_dev_codex --reload
 ```
 
 Run its tests with:
 
 ```bash
-./venv/bin/python -m pytest ./ai_engineering/4_enhanced_dev_codex/tests -v
+./venv/bin/python -m pytest ./ai_engineering/04_enhanced_dev_codex/tests -v
 ```
 
 ## Completion report
@@ -115,6 +115,6 @@ After setup or a change, report:
 - Test counts, exit codes, warnings, and any unexpected behavior.
 - Changed files, while noting unrelated pre-existing changes.
 
-For Day 4, `4_enhanced_dev_codex/VERIFICATION.md` contains the existing command
+For Day 4, `04_enhanced_dev_codex/VERIFICATION.md` contains the existing command
 and test record; treat it as historical evidence and rerun checks when code or
 environment state has changed.

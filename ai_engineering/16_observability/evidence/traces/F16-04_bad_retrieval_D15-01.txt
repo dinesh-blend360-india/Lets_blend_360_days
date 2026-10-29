@@ -1,0 +1,24 @@
+F16-04 bad_retrieval: no errored step; the retriever run returned 0 documents.
+
+assistant_request            chain           1.36 ms
+  llm_call (1)                 llm             0.01 ms
+  lookup_internal_knowledge    tool            1.04 ms
+    retrieve_policies            retriever       0.96 ms
+  llm_call (2)                 llm             0.01 ms
+
+summary: {
+  "trace_id": "87674c30322f44b4b55b10d93ba5fa36",
+  "backend": "local",
+  "step_count": 5,
+  "total_ms": 1.36,
+  "ms_by_run_type": {
+    "llm": 0.02,
+    "tool": 1.04,
+    "retriever": 0.96
+  },
+  "slowest_step": {
+    "name": "lookup_internal_knowledge",
+    "ms": 1.04
+  },
+  "error_steps": []
+}

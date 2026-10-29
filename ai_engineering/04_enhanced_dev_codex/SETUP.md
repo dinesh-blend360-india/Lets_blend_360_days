@@ -6,7 +6,7 @@ repository. Use Python 3.11 or newer. The commands below are for Windows PowerSh
 ## Quick start with the batch file
 
 Double-click **`run.bat`** in this folder, or run it from a terminal opened in
-`4_enhanced_dev_codex`:
+`04_enhanced_dev_codex`:
 
 ```powershell
 .\run.bat
@@ -43,13 +43,13 @@ and SQLite. On macOS/Linux, run the equivalent commands from the repository root
 ```bash
 python3 -m venv venv
 ./venv/bin/python -m pip install -r ./ai_engineering/requirements.txt
-./venv/bin/python -m uvicorn task_api.main:app --app-dir ./ai_engineering/4_enhanced_dev_codex --reload
+./venv/bin/python -m uvicorn task_api.main:app --app-dir ./ai_engineering/04_enhanced_dev_codex --reload
 ```
 
 Then open `http://127.0.0.1:8000/docs`. Run tests with:
 
 ```bash
-./venv/bin/python -m pytest ./ai_engineering/4_enhanced_dev_codex/tests -v
+./venv/bin/python -m pytest ./ai_engineering/04_enhanced_dev_codex/tests -v
 ```
 
 
@@ -61,7 +61,7 @@ Open a terminal in `Lets_blend_360_days`, which contains `ai_engineering`:
 Lets_blend_360_days/
 ├── ai_engineering/
 │   ├── requirements.txt
-│   └── 4_enhanced_dev_codex/
+│   └── 04_enhanced_dev_codex/
 └── venv/                     # Created locally in the next step
 ```
 
@@ -101,7 +101,7 @@ and needs no separate installation.
 ## 4. Start the API
 
 ```powershell
-.\venv\Scripts\python.exe -m uvicorn task_api.main:app --app-dir .\ai_engineering\4_enhanced_dev_codex --reload
+.\venv\Scripts\python.exe -m uvicorn task_api.main:app --app-dir .\ai_engineering\04_enhanced_dev_codex --reload
 ```
 
 Open **http://127.0.0.1:8000/docs** to try the endpoints. Keep this terminal
@@ -132,7 +132,7 @@ The response should have status **201** and include a generated `id` and
 Open another terminal in the repository root:
 
 ```powershell
-.\venv\Scripts\python.exe -m pytest .\ai_engineering\4_enhanced_dev_codex\tests -v
+.\venv\Scripts\python.exe -m pytest .\ai_engineering\04_enhanced_dev_codex\tests -v
 ```
 
 Tests use temporary databases and include persistence across server restarts.
@@ -140,7 +140,7 @@ See [VERIFICATION.md](VERIFICATION.md) for previously recorded test results.
 
 ## Database and optional configuration
 
-Startup creates `ai_engineering/4_enhanced_dev_codex/data/tasks.db` automatically.
+Startup creates `ai_engineering/04_enhanced_dev_codex/data/tasks.db` automatically.
 Tasks survive restarts. No API keys or `.env` file are required for this API.
 
 To choose a different database, set this before starting the server:
@@ -149,7 +149,7 @@ To choose a different database, set this before starting the server:
 $env:TASK_DB_PATH = 'data/custom-tasks.db'
 ```
 
-Relative database paths resolve against `4_enhanced_dev_codex`. You can alternatively
+Relative database paths resolve against `04_enhanced_dev_codex`. You can alternatively
 add `TASK_DB_PATH=data/custom-tasks.db` to your local `ai_engineering/.env`;
 the process environment takes precedence.
 

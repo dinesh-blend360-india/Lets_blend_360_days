@@ -13,7 +13,7 @@ Install optional readers as needed:
     pip install pypdf python-docx
 
 Example:
-    python chunking_day05.py handbook.md --chunk-size 1000 --overlap 120 --quality-report
+    python parse-and-chunk.py handbook.md --chunk-size 1000 --overlap 120 --quality-report
 """
 
 from __future__ import annotations

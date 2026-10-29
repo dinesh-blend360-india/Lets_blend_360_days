@@ -1,0 +1,37 @@
+T16-01 / D15-03 live on llama3.2:3b, prompt v1 (shipped_prompt).
+Expected no tool call. Tools actually called: ['lookup_internal_knowledge'].
+Failed Day 15 checks: ['source_citation', 'tool_selection'].
+Final answer: 'This assistant can perform the following actions:\n\n1. Answer questions to the best of my knowledge based on my training data.\n2. Provide information on a specific topic or category.\n\nTo get more infor'
+Note: this model's wrong choice varies between runs; the constant is that llm_call (1) requests some tool for a question that needs none.
+
+assistant_request            chain       16619.25 ms
+  llm_call (1)                 llm          3636.28 ms
+  lookup_internal_knowledge    tool            0.95 ms  ERROR
+    retrieve_policies            retriever       0.88 ms  ERROR
+  llm_call (2)                 llm         12981.52 ms
+
+summary: {
+  "trace_id": "c072083f49d94fb5891ba66fa4d6b19d",
+  "backend": "local",
+  "step_count": 5,
+  "total_ms": 16619.25,
+  "ms_by_run_type": {
+    "llm": 16617.8,
+    "tool": 0.95,
+    "retriever": 0.88
+  },
+  "slowest_step": {
+    "name": "llm_call (2)",
+    "ms": 12981.52
+  },
+  "error_steps": [
+    {
+      "name": "lookup_internal_knowledge",
+      "error": "{\"code\": \"INVALID_ARGUMENT_TYPE\", \"message\": \"top_k must be an integer\"}"
+    },
+    {
+      "name": "retrieve_policies",
+      "error": "retrieval returned not-ok"
+    }
+  ]
+}

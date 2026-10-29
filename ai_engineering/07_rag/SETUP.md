@@ -3,7 +3,7 @@
 Open PowerShell in:
 
 ```text
-C:\workspace\IDC-on-boarding-training\Lets_blend_360_days\ai_engineering\7_rag
+C:\workspace\IDC-on-boarding-training\Lets_blend_360_days\ai_engineering\07_rag
 ```
 
 Create an isolated environment if needed and install the shared workspace
@@ -26,13 +26,13 @@ embedding index is created by this phase.
 The default is the repository-relative structure-aware index:
 
 ```powershell
-$env:DAY06_INDEX_DIR = "..\6_embedding_and_retrival\outputs\embeddings\employee_policy_md_structure"
+$env:DAY06_INDEX_DIR = "..\06_embedding_and_retrieval\outputs\embeddings\employee_policy_md_structure"
 ```
 
 Or pass the path directly to the command. The existing alternative index is:
 
 ```text
-..\6_embedding_and_retrival\outputs\embeddings\employee_policy_md_no_instruction
+..\06_embedding_and_retrieval\outputs\embeddings\employee_policy_md_no_instruction
 ```
 
 Keep the query-instruction configuration consistent with the selected manifest.
@@ -71,7 +71,7 @@ setup error and does not pretend that an answer was generated.
 
 ```powershell
 python -m rag.day06_adapter `
-  --index-dir ..\6_embedding_and_retrival\outputs\embeddings\employee_policy_md_structure `
+  --index-dir ..\06_embedding_and_retrieval\outputs\embeddings\employee_policy_md_structure `
   --query "When is a receipt required?" `
   --top-k 5 `
   --export .\outputs\receipt_search.json
@@ -132,7 +132,7 @@ Phase 3 Ollama generation, and deterministic citation validation:
 ```powershell
 python -m rag.pipeline `
   --question "When is a receipt required?" `
-  --index-dir ..\6_embedding_and_retrival\outputs\embeddings\employee_policy_md_structure `
+  --index-dir ..\06_embedding_and_retrieval\outputs\embeddings\employee_policy_md_structure `
   --top-k 5 `
   --max-context-chars 6000 `
   --debug

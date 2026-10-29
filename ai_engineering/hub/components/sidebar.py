@@ -21,6 +21,7 @@ DAYS = [
     ("🏗️", "Day 13", "Agentic Engineering"),
     ("🔌",  "Day 14", "MCP Integration"),
     ("📐",  "Day 15", "Evaluations"),
+    ("🔍",  "Day 16", "Observability & Tracing"),
 ]
 
 

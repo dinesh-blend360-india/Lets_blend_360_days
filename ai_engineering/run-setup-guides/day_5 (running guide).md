@@ -17,12 +17,12 @@ The script is named `parse-and-chunk.py`. It uses structure-aware chunking by de
 
 ## 2. Project Folder Structure
 
-Keep the sample documents in a folder named `Day5_document_Chunking_Samples` beside your Python script. The examples below assume your project folder is the folder containing `parse-and-chunk.py`.
+Keep the sample documents in a folder named `samples` beside your Python script. The examples below assume your project folder is the folder containing `parse-and-chunk.py`.
 
 ```text
-5_document_chunking/
+05_document_chunking/
 ├── parse-and-chunk.py
-├── Day5_document_Chunking_Samples/
+├── samples/
 │   ├── employee_policy_pdf_sample.pdf
 │   ├── employee_policy_docx_sample.docx
 │   ├── employee_policy_text_sample.txt
@@ -34,7 +34,7 @@ Keep the sample documents in a folder named `Day5_document_Chunking_Samples` bes
     └── employee_policy_md_chunked.json
 ```
 
-If you renamed the project folder to `Day5_document_Chunking`, that is fine. The important part is that `parse-and-chunk.py` and `Day5_document_Chunking_Samples` are in the locations shown relative to each other.
+If you renamed the project folder to `Day5_document_Chunking`, that is fine. The important part is that `parse-and-chunk.py` and `samples` are in the locations shown relative to each other.
 
 The `outputs` folder and its JSON files are created automatically by the commands below. You do not need to create them manually.
 
@@ -67,9 +67,9 @@ python -m pip install pypdf python-docx
 dir
 ```
 
-You should see `parse-and-chunk.py` and `Day5_document_Chunking_Samples` in the listing.
+You should see `parse-and-chunk.py` and `samples` in the listing.
 
-**Important:** The commands in the next section assume CMD is opened in the project folder, not inside `Day5_document_Chunking_Samples`.
+**Important:** The commands in the next section assume CMD is opened in the project folder, not inside `samples`.
 
 ## 5. Run the Four Sample Documents
 
@@ -78,25 +78,25 @@ Run each command separately from the project folder. Each command reads one samp
 ### A. PDF
 
 ```cmd
-python parse-and-chunk.py "Day5_document_Chunking_Samples\employee_policy_pdf_sample.pdf" --quality-report --output "outputs\employee_policy_pdf_chunked.json"
+python parse-and-chunk.py "samples\employee_policy_pdf_sample.pdf" --quality-report --output "outputs\employee_policy_pdf_chunked.json"
 ```
 
 ### B. DOCX
 
 ```cmd
-python parse-and-chunk.py "Day5_document_Chunking_Samples\employee_policy_docx_sample.docx" --quality-report --output "outputs\employee_policy_docx_chunked.json"
+python parse-and-chunk.py "samples\employee_policy_docx_sample.docx" --quality-report --output "outputs\employee_policy_docx_chunked.json"
 ```
 
 ### C. TXT
 
 ```cmd
-python parse-and-chunk.py "Day5_document_Chunking_Samples\employee_policy_text_sample.txt" --quality-report --output "outputs\employee_policy_txt_chunked.json"
+python parse-and-chunk.py "samples\employee_policy_text_sample.txt" --quality-report --output "outputs\employee_policy_txt_chunked.json"
 ```
 
 ### D. Markdown (MD)
 
 ```cmd
-python parse-and-chunk.py "Day5_document_Chunking_Samples\employee_policy_markdown_sample.md" --quality-report --output "outputs\employee_policy_md_chunked.json"
+python parse-and-chunk.py "samples\employee_policy_markdown_sample.md" --quality-report --output "outputs\employee_policy_md_chunked.json"
 ```
 
 After running each command, the script should print a message showing the number of chunks saved and the output path. Confirm the JSON files exist in `outputs`.
@@ -108,7 +108,7 @@ After running each command, the script should print a message showing the number
 You can change chunk size and overlap in characters. For example:
 
 ```cmd
-python parse-and-chunk.py "Day5_document_Chunking_Samples\employee_policy_pdf_sample.pdf" --chunk-size 1000 --overlap 150 --quality-report --output "outputs\employee_policy_pdf_chunked.json"
+python parse-and-chunk.py "samples\employee_policy_pdf_sample.pdf" --chunk-size 1000 --overlap 150 --quality-report --output "outputs\employee_policy_pdf_chunked.json"
 ```
 
 | Option | Meaning | Default |
@@ -125,7 +125,7 @@ Chunk size and overlap are measured in characters, not model tokens. Actual stru
 The `--output` option accepts a JSON **file path**, including the filename—not just a folder. For example:
 
 ```cmd
-python parse-and-chunk.py "Day5_document_Chunking_Samples\employee_policy_docx_sample.docx" --quality-report --output "outputs\employee_policy_docx_chunked.json"
+python parse-and-chunk.py "samples\employee_policy_docx_sample.docx" --quality-report --output "outputs\employee_policy_docx_chunked.json"
 ```
 
 The script creates the output directory if it does not exist. Running the same command again will overwrite the file at that same output path. Use different filenames when you want to compare multiple chunking configurations.
@@ -244,7 +244,7 @@ Do not mark a test as passed just because the script completed successfully. Bas
 ### Error: `FileNotFoundError: Document not found`
 
 - Confirm that CMD is open in the project folder containing `parse-and-chunk.py`.
-- Run `dir "Day5_document_Chunking_Samples"` to check the sample filenames.
+- Run `dir "samples"` to check the sample filenames.
 - Check the extension carefully: `.txt` is not the same file as `.md`.
 - If your sample folder is elsewhere, provide the correct relative or absolute input path.
 

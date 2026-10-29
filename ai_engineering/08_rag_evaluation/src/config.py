@@ -30,7 +30,7 @@ class EvaluationConfig:
     @classmethod
     def from_environment(cls) -> "EvaluationConfig":
         return cls(
-            day07_project_dir=_path("DAY07_PROJECT_DIR", AI_ENGINEERING_DIR / "7_rag"),
+            day07_project_dir=_path("DAY07_PROJECT_DIR", AI_ENGINEERING_DIR / "07_rag"),
             day06_index_dir=_path(
                 "DAY06_INDEX_DIR",
                 AI_ENGINEERING_DIR / "06_embedding_and_retrieval" / "outputs" / "embeddings" / "employee_policy_md_structure",

@@ -89,7 +89,7 @@ Example:
 
 ## CLI workflow
 
-From `9_fine_tuning`:
+From `09_fine_tuning`:
 
 ```powershell
 python -m src.scenario_loader --list

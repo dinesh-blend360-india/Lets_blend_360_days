@@ -3,7 +3,7 @@
 Open PowerShell in:
 
 ```text
-C:\workspace\IDC-on-boarding-training\Lets_blend_360_days\ai_engineering\6_embedding_and_retrival
+C:\workspace\IDC-on-boarding-training\Lets_blend_360_days\ai_engineering\06_embedding_and_retrieval
 ```
 
 Check Python and create an isolated environment:
@@ -34,7 +34,7 @@ python -m pip install -r .\requirements.txt
 Day 05 output paths are relative to this folder:
 
 ```powershell
-$day05 = "..\5_document_chunking\outputs\employee_policy_md_chunked.json"
+$day05 = "..\05_document_chunking\outputs\employee_policy_md_chunked.json"
 $index = ".\outputs\embeddings\employee_policy_md_structure"
 python -m src.embeddings.build_embeddings $day05 --index-dir $index
 ```
@@ -57,7 +57,7 @@ $day05Files = @(
 foreach ($file in $day05Files) {
   $name = [IO.Path]::GetFileNameWithoutExtension($file)
   python -m src.embeddings.build_embeddings `
-    "..\5_document_chunking\outputs\$file" `
+    "..\05_document_chunking\outputs\$file" `
     --index-dir ".\outputs\embeddings\$name"
 }
 ```
@@ -65,13 +65,13 @@ foreach ($file in $day05Files) {
 To compare Day 05 methods, use separate source and index names:
 
 ```powershell
-python -m src.embeddings.build_embeddings ..\5_document_chunking\outputs\employee_policy_md_character_chunked.json --index-dir .\outputs\embeddings\employee_policy_md_character
+python -m src.embeddings.build_embeddings ..\05_document_chunking\outputs\employee_policy_md_character_chunked.json --index-dir .\outputs\embeddings\employee_policy_md_character
 ```
 
 If that character file is missing, regenerate it from Day 05 before continuing:
 
 ```powershell
-python ..\5_document_chunking\parse-and-chunk.py ..\5_document_chunking\Day5_document_Chunking_Samples\employee_policy_markdown_sample.md --method character --output ..\5_document_chunking\outputs\employee_policy_md_character_chunked.json
+python ..\05_document_chunking\parse-and-chunk.py ..\05_document_chunking\samples\employee_policy_markdown_sample.md --method character --output ..\05_document_chunking\outputs\employee_policy_md_character_chunked.json
 ```
 
 ## Search and evaluate

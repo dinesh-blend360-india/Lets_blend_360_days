@@ -5,7 +5,7 @@
 This guide covers the complete Day 07 workflow in:
 
 ```text
-ai_engineering/7_rag/
+ai_engineering/07_rag/
 ```
 
 Day 07 reuses the real Day 06 retrieval adapter and structure-aware index. It
@@ -41,16 +41,16 @@ unrelated answer-generation pipeline.
 Open PowerShell and move to the Day 07 project:
 
 ```powershell
-cd C:\workspace\IDC-on-boarding-training\Lets_blend_360_days\ai_engineering\7_rag
+cd C:\workspace\IDC-on-boarding-training\Lets_blend_360_days\ai_engineering\07_rag
 ```
 
 The shared workspace layout is:
 
 ```text
 ai_engineering/
-├── 5_document_chunking/
-├── 6_embedding_and_retrival/
-├── 7_rag/
+├── 05_document_chunking/
+├── 06_embedding_and_retrieval/
+├── 07_rag/
 │   ├── rag/
 │   ├── tests/
 │   ├── test_inputs/
@@ -109,13 +109,13 @@ large Ollama model.
 The default Day 06 index is the structure-aware Markdown index:
 
 ```powershell
-$env:DAY06_INDEX_DIR = "..\6_embedding_and_retrival\outputs\embeddings\employee_policy_md_structure"
+$env:DAY06_INDEX_DIR = "..\06_embedding_and_retrieval\outputs\embeddings\employee_policy_md_structure"
 ```
 
 The alternative existing index is:
 
 ```text
-..\6_embedding_and_retrival\outputs\embeddings\employee_policy_md_no_instruction
+..\06_embedding_and_retrieval\outputs\embeddings\employee_policy_md_no_instruction
 ```
 
 You can also pass `--index-dir` directly to the commands. Do not mix indexes
@@ -184,7 +184,7 @@ Run a retrieval query using the existing structure-aware index:
 
 ```powershell
 python -m rag.day06_adapter `
-  --index-dir ..\6_embedding_and_retrival\outputs\embeddings\employee_policy_md_structure `
+  --index-dir ..\06_embedding_and_retrieval\outputs\embeddings\employee_policy_md_structure `
   --query "When is a receipt required?" `
   --top-k 5 `
   --export .\outputs\receipt_retrieval.json
@@ -247,7 +247,7 @@ citation validation:
 
 ```powershell
 python -m rag.pipeline `
-  --index-dir ..\6_embedding_and_retrival\outputs\embeddings\employee_policy_md_structure `
+  --index-dir ..\06_embedding_and_retrieval\outputs\embeddings\employee_policy_md_structure `
   --question "When is a receipt required?" `
   --top-k 5 `
   --max-context-chars 6000 `
@@ -339,7 +339,7 @@ rewrite prompts or retrieval settings merely to make a case pass.
 ## 14. Important output locations
 
 ```text
-7_rag/outputs/
+07_rag/outputs/
 ├── phase5_rag_test_results.json       # mocked case results
 ├── failure_analysis.md                # Phase 6 diagnosis
 └── *.json / *.txt                     # optional retrieval/context exports
@@ -348,7 +348,7 @@ rewrite prompts or retrieval settings merely to make a case pass.
 Day 06 source indexes remain under:
 
 ```text
-6_embedding_and_retrival/outputs/embeddings/
+06_embedding_and_retrieval/outputs/embeddings/
 ```
 
 Do not overwrite or regenerate them just to run Day 07 tests.
@@ -381,7 +381,7 @@ replace the failure with a fabricated answer.
 Confirm the Day 06 structure index exists:
 
 ```powershell
-Get-ChildItem ..\6_embedding_and_retrival\outputs\embeddings\employee_policy_md_structure
+Get-ChildItem ..\06_embedding_and_retrieval\outputs\embeddings\employee_policy_md_structure
 ```
 
 The directory should contain `vectors.npz`, `metadata.json`, and `manifest.json`.

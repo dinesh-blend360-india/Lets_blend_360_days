@@ -39,6 +39,7 @@ DAY_DIRS = {
     13: AI_ENGINEERING_DIR / "13_agentic_engineering",
     14: AI_ENGINEERING_DIR / "14_mcp",
     15: AI_ENGINEERING_DIR / "15_evaluations",
+    16: AI_ENGINEERING_DIR / "16_observability",
 }
 
 

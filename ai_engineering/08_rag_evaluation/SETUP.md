@@ -3,7 +3,7 @@
 ## 1. Open the project folder
 
 ```powershell
-Set-Location C:\workspace\IDC-on-boarding-training\Lets_blend_360_days\ai_engineering\8_rag_evaluation
+Set-Location C:\workspace\IDC-on-boarding-training\Lets_blend_360_days\ai_engineering\08_rag_evaluation
 ```
 
 ## 2. Activate the existing environment
@@ -48,12 +48,12 @@ Copy-Item .env.example .env
 Environment files are not loaded automatically by Day 08. Either keep the defaults or set overrides in the shell:
 
 ```powershell
-$env:DAY07_PROJECT_DIR = "..\7_rag"
-$env:DAY06_INDEX_DIR = "..\6_embedding_and_retrival\outputs\embeddings\employee_policy_md_structure"
+$env:DAY07_PROJECT_DIR = "..\07_rag"
+$env:DAY06_INDEX_DIR = "..\06_embedding_and_retrieval\outputs\embeddings\employee_policy_md_structure"
 $env:OLLAMA_MODEL = "llama3.2:3b"
 ```
 
-Relative paths are resolved from `8_rag_evaluation`.
+Relative paths are resolved from `08_rag_evaluation`.
 
 ## 5. Verify prerequisites
 
