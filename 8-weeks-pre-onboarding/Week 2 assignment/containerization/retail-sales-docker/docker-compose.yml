@@ -1,0 +1,32 @@
+services:
+
+  db:
+    image: postgres:16
+    container_name: retail_sales_db
+    environment:
+      POSTGRES_DB: retail_sales
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sales.csv:/docker-entrypoint-initdb.d/sales.csv
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+
+  web:
+    build: .
+    container_name: retail_sales_web
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_NAME: retail_sales
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_PORT: 5432
+    ports:
+      - "5000:5000"
+
+volumes:
+  postgres_data:

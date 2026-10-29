@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Retail Sales Analytics</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #f5f5f5;
+        }
+
+        h1 {
+            color: #222;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 1000px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .label {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .value {
+            font-size: 28px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Retail Sales Analytics</h1>
+
+<div class="container">
+
+    <div class="card">
+        <div class="label">Total Revenue</div>
+        <div class="value">
+            ₹{{ "{:,.2f}".format(kpis.total_revenue) }}
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="label">Total Orders</div>
+        <div class="value">
+            {{ "{:,}".format(kpis.total_orders) }}
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="label">Units Sold</div>
+        <div class="value">
+            {{ "{:,}".format(kpis.total_units) }}
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="label">Average Order Value</div>
+        <div class="value">
+            ₹{{ "{:,.2f}".format(kpis.average_order_value) }}
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="label">Cancellation Rate</div>
+        <div class="value">
+            {{ kpis.cancellation_rate }}%
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="label">Top Region</div>
+        <div class="value">
+            {{ kpis.top_region }}
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
