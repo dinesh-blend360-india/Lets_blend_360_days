@@ -3,6 +3,8 @@ streamlit
 google-genai 
 python-dotenv==1.2.4
 ollama
+# Day 2 mentor_given.py: OpenAI-compatible client (works against Ollama's /v1 endpoint)
+openai
 pydantic==2.14.1
 httpx==0.28.1
 

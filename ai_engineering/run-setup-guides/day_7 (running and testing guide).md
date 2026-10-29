@@ -223,7 +223,7 @@ IDs from the evidence records:
 python -m rag.answer_generator `
   --question "When is a receipt required?" `
   --context-file .\outputs\receipt_context.txt `
-  --allowed-ids chunk_5762afc8dde264e56dd
+  --allowed-ids chunk_5762afc8dde2640e56dd
 ```
 
 The generator returns JSON with:
@@ -232,7 +232,7 @@ The generator returns JSON with:
 {
   "answer": "...",
   "insufficient_evidence": false,
-  "citations": ["chunk_5762afc8dde264e56dd"]
+  "citations": ["chunk_5762afc8dde2640e56dd"]
 }
 ```
 

@@ -10,7 +10,7 @@ file.
 From this folder:
 
 ```powershell
-python .\parse-and-chunk.py .\Day5_document_Chunking_Samples\employee_policy_markdown_sample.md `
+python .\parse-and-chunk.py .\samples\employee_policy_markdown_sample.md `
   --method structure `
   --chunk-size 1000 `
   --overlap 150 `

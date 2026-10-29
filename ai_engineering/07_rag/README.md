@@ -123,7 +123,7 @@ Run it after constructing context and saving that context to a UTF-8 file:
 python -m rag.answer_generator `
   --question "When is a receipt required?" `
   --context-file .\outputs\receipt_context.txt `
-  --allowed-ids chunk_5762afc8dde264e56dd
+  --allowed-ids chunk_5762afc8dde2640e56dd
 ```
 
 The generator does not construct context itself and does not perform retrieval;
@@ -214,7 +214,7 @@ Example based on the real Day 06 structure index result for the receipt query:
 
 ```text
 [EVIDENCE]
-chunk_id: chunk_5762afc8dde264e56dd
+chunk_id: chunk_5762afc8dde2640e56dd
 source: Day5_document_Chunking_Samples\employee_policy_markdown_sample.md
 section: Employee Expense and Travel Policy > 2. Expense Reimbursement Rules > 2.1 Submission deadline and required context
 page: not available
